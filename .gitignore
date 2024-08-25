@@ -1,0 +1,6 @@
+.env
+.idea/
+some.txt
+/node_modules
+/files
+/helpers/dbh_options.js

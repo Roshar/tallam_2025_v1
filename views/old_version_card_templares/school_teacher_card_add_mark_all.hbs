@@ -1,0 +1,1142 @@
+
+
+
+<!-- jQuery library -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+<section>
+    {{#if error}}
+        <div class="alert alert-danger alert_notification" role="alert">
+            {{error}}
+        </div>
+    {{/if}}
+
+    {{#if notice}}
+        <div class="alert alert-primary alert_notification" role="alert"  >
+            {{notice}}
+        </div>
+    {{/if}}
+</section>
+
+
+<header>
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class=" col-md-6 col-sm-12">
+                <div class="logo">
+                    <a href="/" class="logo__tallam">Tallam</a>
+                    <div>
+                        <h2 class="header__institution" id="header__institution">{{school_name}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-6 col-sm-12 ">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <div class="container-fluid pt-2">
+                        <button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon "></span>
+                        </button>
+                        <div class="collapse navbar-collapse   flex-row-reverse  " id="navbarNavDropdown">
+                            <ul class="navbar-nav" >
+                                <li class="nav-item">
+                                    <a class="nav-link"  href="/school/support">Помощь</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/logout">Выйти</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="row indent-y-2-m">
+            <div class="col-12">
+                <nav class="second_nav">
+                    <ul class="second_nav__items">
+                        <li class="second_nav__item"><a href="/" id="myBtn" class="second_nav__link"> Вернуться на главную</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <form  method="POST">
+        <div class="row">
+            <div class="col-12">
+
+                <section class="teacher-card">
+                    <div class="teacher-card__title">
+                        <h2 class="text-align-center">Оценить урок</h2>
+                    </div>
+
+
+                            {{#each teacher}}
+                                <h3 class="text-align-center">  ФИО: {{surname}} {{firstname}} {{patronymic}} </h3>
+                            {{/each}}
+                            <div class="row">
+                                <div class="col-md-6 mx-auto">
+                                    <div class="input-group mb-3">
+                                        <select name="discipline_id"  class="card-results-discipline form-select" id="discipline" required>
+                                            {{#if disciplineListByTeacherId}}
+                                                {{#each disciplineListByTeacherId}}
+                                                    <option value="{{discipline_id}}">{{title_discipline}}</option>
+                                                {{/each}}
+                                            {{else}}
+                                                <option value="">Нет предмета</option>
+                                            {{/if}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mx-auto">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="input-group mb-3">
+                                                <select name="class_id" class="form-select" id="class_id" required>
+                                                    <option value=""> Выберите класс</option>
+                                                    <option value="1"> 1 класс </option>
+                                                    <option value="2"> 2 класс </option>
+                                                    <option value="3"> 3 класс </option>
+                                                    <option value="4"> 4 класс </option>
+                                                    <option value="5"> 5 класс </option>
+                                                    <option value="6"> 6 класс </option>
+                                                    <option value="7"> 7 класс </option>
+                                                    <option value="8"> 8 класс </option>
+                                                    <option value="9"> 9 класс </option>
+                                                    <option value="10"> 10 класс </option>
+                                                    <option value="11"> 11 класс </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class=" col-md-6 ">
+                                            <div class="input-group mb-3">
+                                                <select name="liter_class" class="form-select" id="liter_class">
+                                                    <option value=""> Выбрать литер (при наличии) </option>
+                                                    <option value="А"> А </option>
+                                                    <option value="Б"> Б </option>
+                                                    <option value="В"> В </option>
+                                                    <option value="Г"> Г </option>
+                                                    <option value="Д"> Д </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mx-auto">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="input-group mb-3">
+                                                <select name="source_id" class="form-select" id="sourse">
+                                                    <option value="2" id="inside" data-inside="inside"> Внутришкольная оценка</option>
+                                                    <option value="1" id="outside" data-outside="outside"> Внешняя оценка</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class=" col-md-6 ">
+                                            <div class="input-group mb-3">
+                                                <input type="date" class="form-control" placeholder="{{current_date}}"  name="date_create"    min="2019-01-01"  required >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-6 col-md-6 mx-auto">
+                                    <div class=" mb-3">
+                                        <label for="thema" class="form-label"> Тема урока: </label>
+                                        <input type="text" name="thema" class="form-control"  type="text" placeholder="Напишите тему урока" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mx-auto">
+                                    <div class="hidden-block" id="hidden-block">
+                                        <div class=" mb-3">
+                                            <h4>Данные оценивающего:</h4>
+                                            <input class=" w3-input w3-animate-input" style="width:30%"  type="text" name="source_fio" placeholder="ФИО">
+                                            <input class="w3-input w3-animate-input" style="width:30%"  type="text" name="position_name" placeholder="Должность">
+                                            <input class="w3-input w3-animate-input" style="width:30%"  type="text" name="source_workplace"  placeholder="Место работы">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                </section>
+            </div>
+        </div>
+
+<style>
+.popover{
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+}
+</style>
+
+        <div class="row">
+            <div class="col-12">
+                <section >
+                    <div class="table-responsive">
+                        <table class="table form-area">
+                            <thead>
+                            <tr>
+                                <th class="form-area__main" style="font-size:.9em">Критерии оценки урока (2 балла – признак проявляется в полной мере, но не регулярно, 1 балл – признак проявляется не в полной мере, 0 баллов – признак не проявляется в деятельности учителя на уроке ) <br>Бинарная оценка (0 – 1 балл) фиксирует наличие или отсутствие действия учителя</th>
+                                <th class="form-area__main" >Оценка в баллах</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td scope="row" class="h-td"><strong>1. Предметные компетенции</strong> <br> <span>
+                                Соответствие требованиям ФГОС к формированию предметных результатов
+                                </span> </td>
+                                <td class="h-td"> <strong>макс. оценка 8 баллов</strong></td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><strong>1.1. Учитель демонстрирует уверенное владение предметным содержанием по теме урока: </strong> </td>
+                                <td> <strong>макс. оценка 6 баллов</strong></td>
+                             </tr>
+                            <tr>
+                                <td scope="row" id="1_1_1"> 1.1.1. организует изучение (применение) понятия в системе его связей с другими,
+                                 ранее изученными, понятиями в рамках учебного предмета (раздела, темы) &nbsp;&nbsp;
+                                 <a href="#" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                  data-content="<strong>Ниже базового (0 баллов):</strong> организует изучение понятия, не раскрывая его связи с другими понятиями, ранее изученными в рамках учебного предмета (раздела, темы) <br/>
+                                   <strong>Базовый (1 балл): </strong> организует изучение (применение) понятия в системе его связей с другими понятиями, ранее изученными в рамках учебного предмета (раздела, темы)  <br/>
+                                   <strong>Выше базового (2 балла): </strong>  организует изучение (применение)  понятия в системе его связей с другими понятиями,  ранее изученными в рамках учебного предмета (раздела, темы)<br/> раскрывает межпредметные связи изучаемого понятия организует изучение (применение) понятие через жизненные ситуации, понятные обучающимся, с учетом их интересов и значимых для них вопросов
+">
+                                 <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                 </a>
+                                 </td>
+                                <td>
+                                    <select  class="form-select" name="k_1_1_1" id="k_1_1_1" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">1.1.2. не допускает ошибок, связанных с предметными знаниями и умениями
+                                &nbsp;&nbsp;
+                                 <a href="#" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                  data-content="<strong>Ниже базового (0 баллов):</strong>  допускает отдельные фактические неточности (ошибки),  связанные с предметными знаниями и умениями <br/>
+                                   <strong>Базовый (1 балл): </strong> не допускает фактических ошибок, связанных с предметными знаниями и умениями <br>
+                                   <strong>Выше базового (2 балла): </strong> не допускает фактических ошибок, связанных с предметными знаниями и умениям">
+                                 <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                 </a>
+                                </td>
+                                <td>
+                                    <select class="form-select" name="k_1_1_2" id="k_1_1_2" required>
+                                        <option value="" selected req>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">1.1.3. указывает на ошибки обучающихся, связанные с предметными знаниями и умениями, оперативно объясняет и исправляет их
+                                &nbsp;&nbsp;
+                                                                 <a href="#" onclick="return false"  title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                  data-content="<strong>Ниже базового (0 баллов):</strong> . не реагирует на  ошибки обучающихся, связанные с предметными знаниями и умениями  <br/>
+                                                                   <strong>Базовый (1 балл): </strong> указывает на ошибки обучающихся, оперативно объясняет и исправляет их   <br/>
+                                                                   <strong>Выше базового (2 балла): </strong>  . указывает на ошибки обучающихся, оперативно организует их объяснение и исправление самими обучающимися
+                                ">
+                                                                 <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                 </a>
+                                </td>
+
+                                <td>
+                                    <select  class="form-select" name="k_1_1_3" id="k_1_1_3" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                              <td scope="row" ><strong>1.2. Учитель демонстрирует умение описывать планируемые предметные результаты урока в деятельностной форме:  </strong> </td>
+                              <td> <strong> макс. оценка 2 баллов </strong></td>
+                            </tr>
+                              <tr>
+                                <td scope="row">1.2.1. описывает предметные учебные действия обучающихся с понятиями, на освоение (или применение) которых направлен урок (занятие)
+                                &nbsp;&nbsp;
+                                                                                                 <a href="#" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                                                  data-content="<strong>Ниже базового (0 баллов):</strong> затрудняется описать предметные учебные действия обучающихся с понятиями, на освоение (или применение) которых направлен урок (занятие) <br/>
+                                                                                                   <strong>Базовый (1 балл): </strong> описывает предметные учебные действия обучающихся с понятиями, на освоение (или применение) которых направлен урок (занятие)<br>
+                                                                                                   <strong>Выше базового (2 балла): </strong> . описывает предметные учебные действия обучающихся с понятиями, на освоение (или применение) которых направлен урок (занятие)<br> на основе уровней и критериев  их достижения обучающимися
+                                                                ">
+                                                                                                 <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                                                 </a>
+                                </td>
+                                <td>
+                                    <select  class="form-select" name="k_1_2_1" id="k_1_2_1" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                             </tr>
+                            <!--end first block-->
+                            <tr>
+                                <td scope="row" class="h-td"> <strong>2. Методические компетенции* </strong> <br> Соответствие требованиям профессионального стандарта «Педагог»  к методическим функциям учителя <br> <span>*(составлены на основе рекомендаций Академии Минпросвещения России)</span>  </td>
+                                <td class="h-td"> макс. оценка 46 баллов</td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><strong>2.1. Учитель демонстрирует умение организовывать целеполагание на уроке (занятии): </strong> </td>
+                                <td> <strong>макс. оценка 6 баллов</strong></td>
+                             </tr>
+
+                             <tr>
+                                 <td scope="row"> 2.1.1. учитель формулирует цель урока (занятия)  вместе с обучающимися, используя проблемную ситуацию (задачу), смысловые догадки, метод ассоциаций и иное
+                             &nbsp;&nbsp;
+                                                      <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                       data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                     ">
+                                                      <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                      </a>
+                                 </td>
+                                 <td>
+                                     <select  class="form-select" name="k_2_1_1" id="k_2_1_1" required>
+                                         <option value="" selected>Выберите оценку</option>
+
+                                         <option value="1">1 (Да)</option>
+                                         <option value="0">0 (Нет)</option>
+                                     </select>
+                                 </td>
+                             </tr>
+                            <tr>
+                             <td scope="row"> 2.1.2. цель урока (занятия) сформулирована так, что ее достижение можно проверить
+                             &nbsp;&nbsp;
+                                                                  <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                   data-content="<strong>Ниже базового (0 баллов): </strong> цель урока (занятия) сформулирована так, что ее достижение нельзя проверить <br/>
+                                                                    <strong>Базовый (1 балл): </strong> цель урока (занятия) сформулирована так, что ее достижение можно проверить<br>
+                                                                    <strong>Выше базового (2 балла): </strong> цель урока (занятия) сформулирована с использованием критериев, которые подготовлены вместе с обучающимися и понятны им
+                                 ">
+                                                                  <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                  </a>
+                             </td>
+                             <td>
+                                 <select  class="form-select" name="k_2_1_2" id="k_2_1_2" required>
+                                     <option value="" selected>Выберите оценку</option>
+                                     <option value="2">2</option>
+                                     <option value="1">1</option>
+                                     <option value="0">0</option>
+                                 </select>
+                             </td>
+                            </tr>
+                            <tr>
+                             <td scope="row"> 2.1.3. цель урока (занятия) сформулирована четко и понятно для обучающихся
+                             &nbsp;&nbsp;
+                                                       <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                        data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                      ">
+                                                       <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                       </a>
+                                  </td>
+                             </td>
+                             <td>
+                                 <select  class="form-select" name="k_2_1_3" id="k_2_1_3" required>
+                                     <option value="" selected>Выберите оценку</option>
+
+                                     <option value="1">1 (Да)</option>
+                                     <option value="0">0 (Нет)</option>
+                                 </select>
+                             </td>
+                            </tr>
+
+                            <tr>
+                             <td scope="row"> 2.1.4. этапы (задачи) урока (занятия) соответствуют достижению цели, являются необходимыми и достаточными
+                                       &nbsp;&nbsp;
+                                                                       <a href="#"  onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                        data-content="<strong>Ниже базового (0 баллов): </strong> этапы (задачи) урока (занятия) не соответствуют достижению цели <br/>
+                                                                         <strong>Базовый (1 балл): </strong> этапы (задачи) урока (занятия), в основном, соответствуют достижению цели<br>
+                                                                         <strong>Выше базового (2 балла): </strong> . этапы (задачи) урока (занятия) полностью соответствуют достижению цели, являются необходимыми и достаточными
+                                      ">
+                                                                       <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                       </a>
+                             </td>
+                             <td>
+                                 <select  class="form-select" name="k_2_1_4" id="k_2_1_4" required>
+                                     <option value="" selected>Выберите оценку</option>
+                                     <option value="2">2</option>
+                                     <option value="1">1</option>
+                                     <option value="0">0</option>
+                                 </select>
+                             </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><strong>2.2. Учитель демонстрирует умение организовывать разнообразные виды  деятельности обучающихся, которые обеспечивают достижение цели урока (занятия): </strong> </td>
+                                <td> <strong>макс. оценка 15 баллов</strong></td>
+                             </tr>
+                                <tr>
+                                  <td scope="row"> 2.2.1. учитель использует проблемные методы обучения (частично-поисковый, исследовательский), приемы активизации познавательной деятельности обучающихся, диалоговые технологии
+                                  &nbsp;&nbsp;
+                                         <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                          data-content="<strong>Ниже базового (0 баллов): </strong> . учитель не использует ИЛИ использует недостаточно проблемные методы обучения (частично-поисковый, исследовательский), <br>
+                                           приемы активизации познавательной деятельности обучающихся, диалоговые технологии для решения задач урока (занятия)<br>
+                                           <strong>Базовый (1 балл): </strong> проблемные методы обучения (частично-поисковый, исследовательский), приемы активизации познавательной деятельности обучающихся,<br>
+                                            диалоговые технологии, которые использует учитель, в основном соответствуют решаемым задачам урока (занятия) <br>
+                                           <strong>Выше базового (2 балла): </strong> . проблемные методы обучения (частично-поисковый, исследовательский),  <br>приемы активизации познавательной деятельности обучающихся, диалоговые технологии, которые использует учитель, полностью соответствуют решаемым задачам урока (занятия)
+        ">
+                                         <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                         </a>
+                                  </td>
+                                  <td>
+                                      <select  class="form-select" name="k_2_2_1" id="k_2_2_1" required>
+                                          <option value="" selected>Выберите оценку</option>
+                                          <option value="2">2</option>
+                                          <option value="1">1</option>
+                                          <option value="0">0</option>
+                                      </select>
+                                  </td>
+                                 </tr>
+                              <tr>
+                                   <td scope="row"> 2.2.2. учитель организует самостоятельную поисковую активность обучающихся
+                                   &nbsp;&nbsp;
+                                                  <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                   data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                 ">
+                                                  <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                  </a>
+                                                  </td>
+                                   <td>
+                                       <select  class="form-select" name="k_2_2_2" id="k_2_2_2" required>
+                                           <option value="" selected>Выберите оценку</option>
+
+                                           <option value="1">1</option>
+                                           <option value="0">0</option>
+                                       </select>
+                                   </td>
+                              </tr>
+                              <tr>
+                                 <td scope="row">2.2.3. учитель организует проектную / учебно-исследовательскую деятельность обучающихся или использует проектные и исследовательские задания
+                                 &nbsp;&nbsp;
+                                              <a href="#"  onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                               data-content="<strong>Ниже базового (0 баллов): </strong> учитель не организует проектную / учебно-исследовательскую деятельность обучающихся и не использует <br>проектные и исследовательские задания на уроке (занятии) <br>
+
+                                                <strong>Базовый (1 балл): </strong> организация проектной / учебно-исследовательской деятельности обучающихся или использование проектных и исследовательских заданий <br>в основном соответствует решаемым задачам урока (занятия) <br>
+
+                                                <strong>Выше базового (2 балла): </strong> . организация проектной / учебно-исследовательской деятельности обучающихся или использование проектных и <br>исследовательских заданий полностью соответствует решаемым задачам урока (занятия)
+             ">
+                                              <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                              </a>
+                                 </td>
+                                 <td>
+                                     <select  class="form-select" name="k_2_2_3" id="k_2_2_3" required>
+                                         <option value="" selected>Выберите оценку</option>
+                                         <option value="2">2</option>
+                                         <option value="1">1</option>
+                                         <option value="0">0</option>
+                                     </select>
+                                 </td>
+                              </tr>
+                              <tr>
+                               <td scope="row">2.2.4. учитель использует задания, которые предусматривают учет индивидуальных особенностей и интересов обучающихся, дифференциацию и индивидуализацию обучения, в том числе возможность выбора темпа, уровня сложности, способов деятельности
+                                &nbsp;&nbsp;
+                                                                       <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                        data-content="<strong>Ниже базового (0 баллов): </strong> учитель не использует задания, которые предусматривают учет индивидуальных особенностей и интересов обучающихся <br>
+
+                                                                         <strong>Базовый (1 балл): </strong> задания на уроке (занятии) предусматривают учет индивидуальных особенностей и интересов обучающихся<br>
+
+                                                                         <strong>Выше базового (2 балла): </strong>задания  предусматривают учет индивидуальных особенностей и интересов обучающихся, дифференциацию и индивидуализацию обучения
+                                      ">
+                                                                       <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                       </a>
+                                </td>
+                               <td>
+                                   <select  class="form-select" name="k_2_2_4" id="k_2_2_4" required>
+                                       <option value="" selected>Выберите оценку</option>
+                                       <option value="2">2</option>
+                                       <option value="1">1</option>
+                                       <option value="0">0</option>
+                                   </select>
+                               </td>
+                              </tr>
+
+                              <tr>
+                                 <td scope="row">2.2.5. учитель использует задания на формиро-вание / развитие / совершенствование универсальных учебных действий
+                                 &nbsp;&nbsp;
+                                       <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                        data-content="<strong>Ниже базового (0 баллов): </strong>учитель не использует задания на формирование / развитие / совершенствование универсальных учебных действий  <br>
+
+                                         <strong>Базовый (1 балл): </strong>задания на формирование / развитие / совершенствование универсальных учебных действий деятельности в основном соответствуют решаемым задачам урока (занятия)<br>
+
+                                         <strong>Выше базового (2 балла): </strong>  задания на формирование / развитие / совершенствование универсальных учебных действий деятельности полностью соответствуют решаемым задачам урока (занятия)
+      ">
+                                       <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                       </a>
+                                 </td>
+                                 <td>
+                                     <select  class="form-select" name="k_2_2_5" id="k_2_2_5" required>
+                                         <option value="" selected>Выберите оценку</option>
+                                         <option value="2">2</option>
+                                         <option value="1">1</option>
+                                         <option value="0">0</option>
+                                     </select>
+                                 </td>
+                              </tr>
+
+                              <tr>
+                               <td scope="row">2.2.6. учитель использует задания, направленные на формирование положительной учебной мотивации, в том числе учебно-познавательных мотивов
+                               &nbsp;&nbsp;
+                                                         <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                          data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                        ">
+                                                         <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                         </a>
+
+                               </td>
+                               <td>
+                                   <select  class="form-select" name="k_2_2_6" id="k_2_2_6" required>
+                                       <option value="" selected>Выберите оценку</option>
+
+                                       <option value="1">1</option>
+                                       <option value="0">0</option>
+                                   </select>
+                               </td>
+                              </tr>
+                              <tr>
+                                 <td scope="row">2.2.7. учитель использует разнообразные способы и средства обратной связи
+                                 &nbsp;&nbsp;
+                                                   <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                    data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                  ">
+                                                   <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                   </a>
+                                 </td>
+                                 <td>
+                                     <select  class="form-select" name="k_2_2_7" id="k_2_2_7" required>
+                                         <option value="" selected>Выберите оценку</option>
+
+                                         <option value="1">1</option>
+                                         <option value="0">0</option>
+                                     </select>
+                                 </td>
+                              </tr>
+                              <tr>
+                               <td scope="row">2.2.8. качество и количество заданий обеспечивают достижение цели урока (занятия)
+                               &nbsp;&nbsp;
+                                                                                                                         <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                                                                          data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                                                                        ">
+                                                                                                                         <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                                                                         </a></td>
+                               <td>
+                                   <select  class="form-select" name="k_2_2_8" id="k_2_2_8" required>
+                                       <option value="" selected>Выберите оценку</option>
+
+                                       <option value="1">1</option>
+                                       <option value="0">0</option>
+                                   </select>
+                               </td>
+                              </tr>
+                              <tr>
+                                 <td scope="row">2.2.9. учитель использует методы и приемы, обеспечивающие достижение планируемых результатов урока (занятия)
+                                    &nbsp;&nbsp;
+                                    <a href="#" onclick="return false"  title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                    data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                    ">
+                                    <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                    </a>
+                                  </td>
+                                 <td>
+                                     <select  class="form-select" name="k_2_2_9" id="k_2_2_9" required>
+                                         <option value="" selected>Выберите оценку</option>
+                                         <option value="1">1(Да)</option>
+                                         <option value="0">0 (Нет)</option>
+                                     </select>
+                                 </td>
+                              </tr>
+                              <tr>
+                               <td scope="row">2.2.10. выбранный тип урока (занятия) соответствует поставленной цели, структура урока (занятия) логична, этапы взаимосвязаны
+                                &nbsp;&nbsp;
+                                                              <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                               data-content="<strong>Ниже базового (0 баллов): </strong> выбранный тип урока (занятия) не соответствует поставленной цели, структура урока (занятия) недостаточно логична, этапы слабо взаимосвязаны  <br>
+
+                                                                <strong>Базовый (1 балл): </strong> выбранный тип урока (занятия) соответствует поставленной цели, структура урока (занятия) в основном логична, этапы взаимосвязаны<br>
+
+                                                                <strong>Выше базового (2 балла): </strong>выбранный тип урока (занятия) полностью соответствует поставленной цели, структура урока (занятия) логична, этапы взаимосвязаны
+                             ">
+                                                              <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                              </a>
+                                </td>
+                               <td>
+                                   <select  class="form-select"  name="k_2_2_10" id="k_2_2_10" required>
+                                       <option value="" selected>Выберите оценку</option>
+                                       <option value="2">2</option>
+                                       <option value="1">1</option>
+                                       <option value="0">0</option>
+                                   </select>
+                               </td>
+                             </tr>
+                             <tr>
+                                 <td scope="row"><strong>2.3. Учитель демонстрирует умение организовывать оценку и рефлексию на уроке (занятии):</strong> </td>
+                                 <td> <strong>макс. оценка 10 баллов</strong></td>
+                             </tr>
+                               <tr>
+                                <td scope="row">2.3.1. учитель использует формирующее (критериальное) оценивание
+                                 &nbsp;&nbsp;
+                                                                     <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                     data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                                                     ">
+                                                                     <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                     </a>
+                                 </td>
+                                <td>
+                                    <select  class="form-select" name="k_2_3_1" id="k_2_3_1" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="1">1(Да)</option>
+                                        <option value="0">0(Нет)</option>
+                                    </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                  <td scope="row">2.3.2. учитель организует разработку / обсуждение критериев оценки деятельности с обучающимися
+                                  &nbsp;&nbsp;
+                                                                      <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                      data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                                                      ">
+                                                                      <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                      </a>
+                                  </td>
+                                  <td>
+                                      <select  class="form-select" name="k_2_3_2" id="k_2_3_2" required>
+                                          <option value="" selected>Выберите оценку</option>
+                                          <option value="1">1(Да)</option>
+                                          <option value="0">0(Нет)</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                <td scope="row">2.3.3. учитель организует взаимооценку / самооценку
+                                &nbsp;&nbsp;
+                                              <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                               data-content="<strong>Ниже базового (0 баллов): </strong>  учитель не организует взаимооценку / самооценку обучающихся с использованием критериев<br>
+
+                                                <strong>Базовый (1 балл): </strong> учитель организует взаимооценку / самооценку обучающихся по готовым критериям<br>
+
+                                                <strong>Выше базового (2 балла): </strong>учитель организует взаимооценку / самооценку обучающихся по готовым критериям и критериям, подготовленным совместно с обучающимися
+             ">
+                                              <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                              </a>
+                                </td>
+                                <td>
+                                    <select  class="form-select" name="k_2_3_3" id="k_2_3_3" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td scope="row">2.3.4. учитель содержательно (опираясь на критерии оценки) комментирует выставленные отметки
+                                 &nbsp;&nbsp;
+                                              <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                              data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                              ">
+                                              <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                              </a>
+                                </td>
+                                <td>
+                                    <select  class="form-select" name="k_2_3_4" id="k_2_3_4" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="1">1 (Да)</option>
+                                        <option value="0">0 (Нет)</option>
+                                    </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td scope="row">2.3.5. учитель организует рефлексию с учетом возрастных особенностей обучающихся
+                                                (учитель предлагает обучающимся оценить новизну, сложность, полезность выполненных заданий, уровень достижения цели урока (занятия), степень выполнения поставленных задач, полученный результат и деятельность, взаимодействие, иное)
+            &nbsp;&nbsp;
+                                                                          <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                           data-content="<strong>Ниже базового (0 баллов): </strong> учитель не организует рефлексию обучающихся  <br>
+
+                                                                            <strong>Базовый (1 балл): </strong> учитель организует рефлексию с учетом возрастных особенностей обучающихся: предлагает обучающимся оценить сложность, полезность выполненных заданий, полученный результат и деятельность, взаимодействие<br>
+
+                                                                            <strong>Выше базового (2 балла): </strong>учитель организует рефлексию с учетом возрастных особенностей обучающихся: предлагает обучающимся оценить новизну, сложность, полезность выполненных заданий, уровень достижения цели урока (занятия), степень выполнения поставленных задач, полученный результат и деятельность, взаимодействие, иное
+                                         ">
+                                                                          <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                          </a>
+ </td>
+                                <td>
+                                    <select  class="form-select" name="k_2_3_5" id="k_2_3_5" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                  <td scope="row">2.3.6. учитель вместе с детьми оценивает практическую значимость знаний и способов деятельности
+                                   &nbsp;&nbsp;
+                                                                                <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                                data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                                                                ">
+                                                                                <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                                </a>
+                                  </td>
+                                  <td>
+                                      <select  class="form-select" name="k_2_3_6" id="k_2_3_6" required>
+                                          <option value="" selected>Выберите оценку</option>
+
+                                          <option value="1">1</option>
+                                          <option value="0">0</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td scope="row">2.3.7. соответствие содержания урока (занятия) планируемым результатам
+                                  &nbsp;&nbsp;
+                                        <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                         data-content="<strong>Ниже базового (0 баллов): </strong>  содержание урока (занятия) частично соответствует планируемым результатам<br>
+
+                                          <strong>Базовый (1 балл): </strong> содержание урока (занятия) в основном соответствует планируемым результатам<br>
+
+                                          <strong>Выше базового (2 балла): </strong> содержание урока (занятия) полностью соответствует планируемым результатам
+       ">
+                                        <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                        </a>
+                                                                        </td>
+                                  <td>
+                                      <select  class="form-select" name="k_2_3_7" id="k_2_3_7" required>
+                                          <option value="" selected>Выберите оценку</option>
+                                          <option value="2">2</option>
+                                          <option value="1">1</option>
+                                          <option value="0">0</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td scope="row"><strong>2.4. Информационное и техническое обеспечение урока (занятия) </strong> </td>
+                                  <td> <strong>макс. оценка 12 баллов</strong></td>
+                              </tr>
+                              <tr>
+                                  <td scope="row">2.4.1. учитель использует условно-изобразительную наглядность (знаково-символические средства, модели и др.), использование наглядности целесообразно
+                                  &nbsp;&nbsp;
+                                                                                                <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                                                 data-content="<strong>Ниже базового (0 баллов): </strong> использование условно-изобразительной наглядности (знаково-символических средств, моделей и др.) на уроке (занятии) нецелесообразно ИЛИ отсутствует <br>
+
+                                                                                                  <strong>Базовый (1 балл): </strong> использование условно-изобразительной наглядности (знаково-символических средств, моделей и др.) на уроке (занятии) в основном целесообразно, то есть частично соответствует решаемым задачам урока (занятия)<br>
+
+                                                                                                  <strong>Выше базового (2 балла): </strong>. использование условно-изобразительной наглядности (знаково-символических средств, моделей и др.) на уроке (занятии) целесообразно, то есть в полной мере соответствует решаемым задачам урока (занятия)
+                                                               ">
+                                                                                                <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                                                </a>
+                                  </td>
+                                  <td>
+                                      <select  class="form-select" name="k_2_4_1" id="k_2_4_1" required>
+                                          <option value="" selected>Выберите оценку</option>
+                                          <option value="2">2</option>
+                                          <option value="1">1</option>
+                                          <option value="0">0</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                <td scope="row">2.4.2. учитель использует ИКТ-технологии, применение технологий целесообразно
+                                    &nbsp;&nbsp;
+                                                               <a href="#"  onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                data-content="<strong>Ниже базового (0 баллов): </strong>применение ИКТ-технологий на уроке (занятии) нецелесообразно ИЛИ отсутствует  <br>
+
+                                                                 <strong>Базовый (1 балл): </strong> применение ИКТ-технологий на уроке (занятии) в основном целесообразно, то есть частично соответствует решаемым задачам урока (занятия)<br>
+
+                                                                 <strong>Выше базового (2 балла): </strong> применение ИКТ-технологий на уроке (занятии) в основном целесообразно, то есть полностью соответствует решаемым задачам урока (занятия)
+                                    ">
+                                                               <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                               </a>
+                                 </td>
+                                <td>
+                                    <select  class="form-select" name="k_2_4_2" id="k_2_4_2" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                  <td scope="row">2.4.3. учитель использует наглядность для решения определенной учебной задачи.
+                                                  Средства обучения используются целесообразно с учетом специфики программы, возраста обучающихся
+                                                  &nbsp;&nbsp;
+                                                                                                                <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                                                                 data-content="<strong>Ниже базового (0 баллов): </strong> учитель использует наглядность и другие средства обучения без продуманной связи с решением учебных задач урока (занятия <br>
+
+                                                                                                                  <strong>Базовый (1 балл): </strong> учитель использует наглядность и другие средства обучения для решения учебных задач урока (занятия) в основном целесообразно, с учетом специфики программы, возраста обучающихся<br>
+
+                                                                                                                  <strong>Выше базового (2 балла): </strong>учитель использует наглядность и другие средства обучения для решения определенных учебных задач урока (занятия), целесообразно, с учетом специфики программы, возраста обучающихся
+                                                                               ">
+                                                                                                                <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                                                                </a>
+                                                  </td>
+                                  <td>
+                                      <select  class="form-select" name="k_2_4_3" id="k_2_4_3" required>
+                                          <option value="" selected>Выберите оценку</option>
+                                          <option value="2">2</option>
+                                          <option value="1">1</option>
+                                          <option value="0">0</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                               <tr>
+                                    <td scope="row">2.4.4. учитель использует разнообразные справочные материалы (словари, энциклопедии, справочники)
+                                    &nbsp;&nbsp;
+                                                                                                  <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                                                                   data-content="<strong>Ниже базового (0 баллов): </strong>использование разнообразных справочных материалов (словарей, энциклопедий, справочников) нецелесообразно ИЛИ отсутствует  <br>
+
+                                                                                                    <strong>Базовый (1 балл): </strong> использование разнообразных справочных материалов (словарей, энциклопедий, справочников) в основном целесообразно, то есть частично соответствует решаемым задачам урока (занятия<br>
+
+                                                                                                    <strong>Выше базового (2 балла): </strong>использование разнообразных справочных материалов (словарей, энциклопедий, справочников) целесообразно, то есть полностью соответствует решаемым задачам урока (занятия)
+                                                                 ">
+                                                                                                  <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                                                                  </a>
+                                    </td>
+                                    <td>
+                                        <select  class="form-select" name="k_2_4_4" id="k_2_4_4" required>
+                                            <option value="" selected>Выберите оценку</option>
+                                            <option value="2">2</option>
+                                            <option value="1">1</option>
+                                            <option value="0">0</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">2.4.5. учитель использует электронные учебные материалы и ресурсы Интернета
+                                     &nbsp;&nbsp;
+                                            <a href="#" onclick="return false"  title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                            data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                            ">
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                            </a>
+                                    </td>
+                                    <td>
+                                        <select  class="form-select" name="k_2_4_5" id="k_2_4_5" required>
+                                            <option value="" selected>Выберите оценку</option>
+
+                                            <option value="1">1 (Да)</option>
+                                            <option value="0">0 (Нет)</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">2.4.6. учитель использует материалы разных форматов (текст, таблица, схема, график, видео, аудио)
+                                    &nbsp;&nbsp;
+                                          <a href="#"  onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                           data-content="<strong>Ниже базового (0 баллов): </strong>  использование на уроке (занятии) материалов разных форматов (текст, таблица, схема, график, видео, аудио) нецелесообразно ИЛИ отсутствует <br>
+
+                                            <strong>Базовый (1 балл): </strong> использование на уроке (занятии) материалов разных форматов (текст, таблица, схема, график, видео, аудио) в основном целесообразно, то есть частично соответствует решаемым задачам урока (занятия)<br>
+
+                                            <strong>Выше базового (2 балла): использование на уроке (занятии) материалов разных форматов (текст, таблица, схема, график, видео, аудио) целесообразно, то есть полностью соответствует решаемым задачам урока (занятия)</strong>
+         ">
+                                          <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                          </a>
+                                    </td>
+                                    <td>
+                                        <select  class="form-select" name="k_2_4_6" id="k_2_4_6" required>
+                                            <option value="" selected>Выберите оценку</option>
+                                            <option value="2">2</option>
+                                            <option value="1">1</option>
+                                            <option value="0">0</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">2.4.7. учитель использует технологическую карту урока (занятия)
+                                    &nbsp;&nbsp;
+                                       <a href="#" onclick="return false"  title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                       data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                       ">
+                                       <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                       </a>
+
+                                    </td>
+                                    <td>
+                                        <select  class="form-select" name="k_2_4_7" id="k_2_4_7" required>
+                                            <option value="" selected>Выберите оценку</option>
+
+                                            <option value="1">1 (Да)</option>
+                                            <option value="0">0 (Нет)</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                               <tr>
+                                  <td scope="row"><strong>2.5. Обеспечение условий охраны здоровья обучающихся </strong> </td>
+                                  <td> <strong>макс. оценка 3 баллов</strong></td>
+                               </tr>
+                               <tr>
+                                    <td scope="row">2.5.1. учитель чередует различные виды деятельности обучающихся
+
+                &nbsp;&nbsp;
+                                                    <a href="#" onclick="return false"  title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                    data-content="<strong>Бинарная оценка (0 – 1 балл):</strong>  фиксирует наличие или отсутствие действия учителя
+
+                                                    ">
+                                                    <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                    </a>
+                                    </td>
+                                    <td>
+                                        <select  class="form-select" name="k_2_5_1" id="k_2_5_1" required>
+                                            <option value="" selected>Выберите оценку</option>
+
+                                            <option value="1">1</option>
+                                            <option value="0">0</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                               <tr>
+                                   <td scope="row">2.5.2. учитель организует динамические паузы (физкультминутки) и (или) проведение комплекса упражнений для профилактики сколиоза, утомления глаз
+                                   &nbsp;&nbsp;
+                                             <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                              data-content="<strong>Ниже базового (0 баллов): </strong>. учитель организует динамические паузы (физкультминутки) и (или) проведение комплекса упражнений для профилактики сколиоза, утомления глаз с отдельными нарушениями требований СанПиН и СП  <br>
+
+                                               <strong>Базовый (1 балл): </strong> учитель организует динамические паузы (физкультминутки) и (или) проведение комплекса упражнений для профилактики сколиоза, утомления глаз в соответствии с требованиями СанПиН и СП<br>
+
+                                               <strong>Выше базового (2 балла): . учитель организует динамические паузы (физкультминутки) и (или) проведение комплекса упражнений для профилактики сколиоза, утомления глаз в полном соответствии с требованиями СанПиН и СП</strong>
+            ">
+                                             <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                             </a>
+                                   </td>
+                                   <td>
+                                       <select  class="form-select" name="k_2_5_2" id="k_2_5_2" required>
+                                           <option value="" selected>Выберите оценку</option>
+                                           <option value="2">2</option>
+                                           <option value="1">1</option>
+                                           <option value="0">0</option>
+                                       </select>
+                                   </td>
+                               </tr>
+                            <!-- end second block-->
+
+
+                            <tr>
+                                <td scope="row" class="h-td"> <strong>3. Психолого-педагогические компетенции </strong> <br> Соответствие требованиям профессионального стандарта «Педагог»  к воспитательным функциям учителя  </td>
+                                <td class="h-td"> макс. оценка 4 баллов</td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><strong>3.1. Учитель объясняет, какие воспитательные задачи достигаются средствами урока (занятия): </strong> </td>
+                                <td> <strong>макс. оценка 2 баллов</strong></td>
+                             </tr>
+                             <tr>
+                                 <td scope="row">3.1.1. демонстрирует умение решать воспитательные задачи (гражданско-патриотического воспитания,  духовно-нравственного воспитания, эстетического воспитания, физического воспитания, формирования культуры здоровья и эмоционального благополучия, трудового воспитания, экологического воспитания, ценности научного познания), используя воспитательные возможности учебного материала урока (занятия)
+                                 &nbsp;&nbsp;
+                                                       <a href="#" onclick="return false"  title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                        data-content="<strong>Ниже базового (0 баллов): </strong> затрудняется использовать возможности учебного материала урока (занятия) для решения воспитательных задач ИЛИ делает это формально <br>
+
+                                                         <strong>Базовый (1 балл): </strong> в основном использует возможности учебного материала урока (занятия) для решения воспитательных задач (гражданско-патриотического воспитания,  духовно-нравственного воспитания, эстетического воспитания, физического воспитания, формирования культуры здоровья и эмоционального благополучия, трудового воспитания, экологического воспитания, ценности научного познания)<br>
+
+                                                         <strong>Выше базового (2 балла): максимально использует возможности учебного материала урока (занятия) для решения воспитательных задач (гражданско-патриотического воспи-тания,  духовно-нравственного воспитания, эстетического воспитания, физического воспитания, формирования культуры здоровья и эмоционального благополучия, трудового воспитания, экологического воспитания, ценности научного познания), дополняя средства УМК приемами формирования <br> у обучающихся основ личностной рефлексии и способов самопознания, саморазвития </strong>
+                      ">
+                                                       <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                       </a>
+                                 </td>
+                                 <td>
+                                     <select  class="form-select" name="k_3_1_1" id="k_3_1_1" required>
+                                         <option value="" selected>Выберите оценку</option>
+                                         <option value="2">2</option>
+                                         <option value="1">1</option>
+                                         <option value="0">0</option>
+                                     </select>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td scope="row"><strong>3.2. Учитель демонстрирует умение организовывать ситуации, развивающие эмоционально-ценностную сферу обучающихся (культуру переживаний и ценностные ориентации) </strong> </td>
+                                 <td> <strong>макс. оценка 2 баллов</strong></td>
+                             </tr>
+                             <tr>
+                                 <td scope="row">3.2.1. учитель использует: задания на морально-этический выбор (моральные дилеммы); задания, организующие рефлексию эмоционального состояния обучающихся; задания, проявляющие ценностное отношение обучающихся
+                                  &nbsp;&nbsp;
+                                                        <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                         data-content="<strong>Ниже базового (0 баллов): </strong> учитель не включает в урок (занятие) задания, направленные на развитие эмоционально-ценностной сферы обучающихся <br>
+
+                                                          <strong>Базовый (1 балл): </strong> учитель включает в урок (занятие) задания, организующие рефлексию эмоционального состояния обучающихся, самооценку своих достижений<br>
+
+                                                          <strong>Выше базового (2 балла): </strong>учитель включает в урок (занятие) задания, организующие рефлексию эмоционального состояния обучающихся, самооценку своих достижений;
+                                                                                                     задания на морально-этический выбор (моральные дилеммы);
+                                                                                                    задания, проявляющие ценностные установки обучающихся
+
+                       ">
+                                                        <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                        </a>
+                                  </td>
+                                 <td>
+                                     <select  class="form-select" name="k_3_2_1" id="k_3_2_1" required>
+                                         <option value="" selected>Выберите оценку</option>
+                                         <option value="2">2</option>
+                                         <option value="1">1</option>
+                                         <option value="0">0</option>
+                                     </select>
+                                 </td>
+                             </tr>
+                            <!--end third block-->
+                            <tr>
+                                <td scope="row" class="h-td"> <strong>4. Коммуникативные  компетенции</strong> <br> Соответствие требованиям профессионального стандарта «Педагог»  к воспитательным функциям учителя  </td>
+                                <td class="h-td"> макс. оценка 6 баллов</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">4.1. Учитель демонстрирует умение конструктивно общаться и взаимодействовать с обучающимися на уроке (занятии)
+                                 &nbsp;&nbsp;
+                                                           <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                            data-content="<strong>Ниже базового (0 баллов): </strong> учитель использует отдельные негативные парциальные (частичные) оценки  в общении и взаимодействии с обучающимися  —  выговор, насмешка, ирония, упрек, угроза, оскорбление и придирка ИЛИ парциальные оценки отсутствуют <br>
+
+                                                             <strong>Базовый (1 балл): </strong> учитель использует отдельные позитивные парциальные (частичные) оценки  в общении и взаимодействии с обучающимися — одобрение, похвала, совет и предложение<br>
+
+                                                             <strong>Выше базового (2 балла): </strong>учитель использует позитивные парциальные (частичные) оценки в общении и взаимодействии с обучающимися  — одобрение, поощрение к самостоятельной учебной активности, похвала, юмор, просьба, совет и предложение
+                          ">
+                                                           <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                           </a>
+                                 </td>
+                                <td>
+                                    <select  class="form-select" name="k_4_1" id="k_4_1" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">4.2. Учитель демонстрирует умение управлять общением и взаимодействием обучающихся в совместной деятельности
+                                &nbsp;&nbsp;
+                                              <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                               data-content="<strong>Ниже базового (0 баллов): </strong> учитель выполняет отдельные функции управления совместной деятельностью обучающихся в командах:
+                                                                                                         объясняет цели работы в командах,
+                                                                                                         оценивает результаты работы каждой команды
+ <br>
+
+                                                <strong>Базовый (1 балл): </strong> учитель выполняет базовые функции управления совместной деятельностью обучающихся в командах:
+                                                                                    объясняет цели работы в командах,
+                                                                                    комментирует задания для команд,
+                                                                                    выполняет контроль за ходом работы в командах,
+                                                                                    помогает командам оформить и представить всему классу результаты работы,
+                                                                                    дает оценку результатов работы каждой команды
+<br>
+
+                                                <strong>Выше базового (2 балла): </strong> учитель выполняет все основные функции управления совместной деятельностью обучающихся в командах:
+                                                                                           объясняет цели работы в командах,
+                                                                                           помогает обучающимся распределиться в команды,
+                                                                                           комментирует задания для команд,
+                                                                                           выполняет контроль за ходом работы в командах, без навязывания своей точки зрения как единственно возможной, побуждая обучающихся к активному поиску,
+                                                                                           помогает командам оформить и представить всему классу результаты работы,
+                                                                                           вовлекает команды во взаимооценку и самооценку
+                                                                                           оценивает не только результаты работы каждой команды, но и сам процесс работы в командах
+
+             ">
+                                              <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                              </a>
+                                </td>
+                                <td>
+                                    <select  class="form-select" name="k_4_2" id="k_4_2" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">4.3. Учитель демонстрирует умение предупреждать и/или решать конфликтные ситуации на уроке (занятии)
+                                &nbsp;&nbsp;
+                                                          <a href="#" onclick="return false" title="ПОКАЗАТЕЛИ И УРОВНЕВЫЕ ДЕСКРИПТОРЫ КОМПЕТЕНЦИЙ УЧИТЕЛЯ" style="max-width:100%;" data-toggle="popover" data-trigger="focus" data-html="true"
+                                                           data-content="<strong>Ниже базового (0 баллов): </strong>учитель устраняется от разрешения конфликтной ситуации<br>
+  <br>
+
+                                                            <strong>Базовый (1 балл): </strong>  в решении спорных вопросов учитель ищет возможности для конструктивного взаимодействия, помогает найти общий язык, но не обращает внимания на глубинные причины возникновения ситуации, упускает возможность предотвращения повторения конфликта <br>
+<br>
+
+                                                            <strong>Выше базового (2 балла): </strong> в решении спорных вопросов учитель обращает внимание на глубинные причины возникновения разногласий, показывает варианты конструктивного разрешения ситуации; включается в решение ситуации на ранних стадиях, выявляет источники возникновения конфликтной ситуации и предпринимает действия по устранению предпосылок к возникновению конфликтов
+                         ">
+                                                          <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'> </i>
+                                                          </a>
+                                </td>
+                                <td>
+                                    <select  class="form-select" name="k_4_3" id="k_4_3" required>
+                                        <option value="" selected>Выберите оценку</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <!--end 4 block-->
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="hidden" name="id_teacher" value="{{teacher_id}}">
+                    <input type="hidden" name="school_id" value="{{school_id}}">
+                    <input type="hidden" name="project_id" value="{{project_id}}">
+                    <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-block btn-main-block btn-main-color" style="font-size: 1.3em;">Оценить</button>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                </section>
+            </div>
+        </div>
+        </form>
+    </div>
+
+</main>
+
+
+
+<script>
+
+
+$('[data-toggle="popover"]').popover();
+
+let op = $('#hidden-block');
+    $("#sourse").change(function(){       
+        if($(this).find(':selected').attr('id') == "outside"){
+            op.removeClass('hidden-block')
+
+        }else {
+            op.addClass('hidden-block')
+        }   
+    });
+
+
+</script>
+
+

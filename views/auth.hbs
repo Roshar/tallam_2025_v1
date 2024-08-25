@@ -1,0 +1,98 @@
+<div class="header ">
+    <div class="container ">
+       <div class="row">
+           <div class="col-12 col-sm-12 main-header ">
+               <h1 class="main-header__heading">Tallam</h1>
+               <div class="main-header__blue-line"></div>
+               <p class="main-header__info">Информационно-аналитическая платформа </p>
+{{!--                <p class="main-header__info">ИНФОРМАЦИОННО-АНАЛИТИЧЕСКАЯ ПЛАТФОРМА </p> --}}
+           </div>
+       </div>
+    </div>
+</div>
+
+<main class="main-auth">
+    <div class="container">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-wrapper">
+                        <div class="white-container">
+                            {{#if error}}
+                                <p> {{ error}}</p>
+                            {{/if}}
+                            {{#if notice}}
+                                <p> {{ notice}}</p>
+                            {{/if}}
+
+                            <form action="/auth/login" method="POST">
+                                <div class="mb-3">
+                                    <input id="email" type="text" class="form-control form-control-lg" placeholder="ЛОГИН" name="email">
+                                </div>
+                                <div class="mb-3">
+                                    <input id="password" type="password" class="form-control form-control-lg" placeholder="ПАРОЛЬ" name="password">
+                                </div>
+                                <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
+                                <div class="row gy-3">
+                                    <div class="col-md-6">
+                                        <div class="d-grid gap-2">
+                                            <input type="submit"  class="btn white-container__btn" value="Войти">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <button type="button"class="btn forget-password__btn" data-bs-toggle="modal"    id="btn-o" href="#exampleModalToggle" role="button">Забыли пароль?</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</main>
+
+{{!--             модалка   --}}
+        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="modal-body">
+                    <h4 style="text-align:center">  Уважаемый пользователь! Если вы забыли пароль к своей учетной записи или столкнулись с другими проблемами, пожалуйста, свяжитесь с нами в <a class="brand_link_color"href="https://t.me/nakata_katsu">ТЕЛЕГРАММ.</a> </h4>
+              </div>
+              <div class="d-grid gap-2">
+               <button class="btn-main-color"  data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Понятно</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{{!--                 модалка  --}}
+
+<div class="footer-auth">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                    <div class="support">
+                       <div class = "row">
+                           <div class ="col-md-6">
+                                <div class="support__text">
+                                    <p>Техническая поддержка:</p>
+                                    <span>Эл. почта: webrush@mail.ru</span><br/>
+                                    <span>Телеграмм чат: <a href="https://t.me/nakata_katsu" class="auth-link"> Написать</a></span>
+                                    <p> ©2020-2023, Tallam - Информационно-аналитическая платформа</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
