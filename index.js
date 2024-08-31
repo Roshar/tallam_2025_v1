@@ -167,7 +167,7 @@ pool.getConnection((err, connection) => {
     return;
   }
 
-  connection.query("SELECT * FROM 	cards", (error, results) => {
+  connection.query("SELECT * FROM 	category", (error, results) => {
     connection.release(); // Освобождаем соединение обратно в пул
 
     if (error) {
