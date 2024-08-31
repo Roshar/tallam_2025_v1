@@ -250,7 +250,7 @@ app.use(function (req, res, next) {
   });
 });
 
-const PORT = process.env.DATABASE_PORT || 9000;
+const PORT = process.env.APP_PORT || 9000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
