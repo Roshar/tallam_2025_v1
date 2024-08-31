@@ -158,7 +158,28 @@ app.use((jsonParser = bodyParser.json()));
  *
  */
 
-const dbh = mysql.createConnection(dbhoptions);
+const pool = mysql.createPool(dbhoptions);
+
+// Пример запроса
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error("Ошибка подключения к пулу:", err);
+    return;
+  }
+
+  connection.query("SELECT * FROM 	cards", (error, results) => {
+    connection.release(); // Освобождаем соединение обратно в пул
+
+    if (error) {
+      console.error("Ошибка запроса:", error);
+      return;
+    }
+
+    console.log(results);
+  });
+});
+
+// const dbh = mysql.createConnection(dbhoptions);
 
 const options = {
   // checkExpirationInterval: 1000 * 60 * 15,
@@ -167,7 +188,7 @@ const options = {
   createDatabaseTable: true,
 };
 
-const sessionStore = new MySQLStore(options, dbh);
+const sessionStore = new MySQLStore(options, pool);
 
 /**
  * -------------
