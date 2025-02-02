@@ -33,11 +33,15 @@ const teacherEditAndDelete = require("./routes/admin/teacher");
 const adminProjectsRoutes = require("./routes/admin/projects");
 const adddeletemembersRoutes = require("./routes/admin/add_delete_members");
 const cardsRoutes = require("./routes/admin/card");
+const allMethodistRoutes = require("./routes/methodist/methodistAllRoutest");
+const adminMethodistRoutes = require("./routes/admin/methodistCollection");
+
 const varMiddle = require("./middleware/variables");
 const dbopt = require("./middleware/dbdata");
 // const ST = require('./models/admin/Auth')
 const isAuth = require("./middleware/auth");
 const isAdmin = require("./middleware/admin");
+const isMethodist = require("./middleware/methodist");
 
 const dbhoptions = require("./helpers/dbh_options");
 
@@ -139,6 +143,7 @@ const hbs = exphbs.create({
         return "full";
       }
     },
+    checkAuthorCard: (n) => n === true,
   },
 });
 
@@ -179,7 +184,18 @@ pool.getConnection((err, connection) => {
   });
 });
 
-// const dbh = mysql.createConnection(dbhoptions);
+const dbh = mysql.createConnection(dbhoptions);
+
+// const pool = mysql.createPool(dbhoptions);
+
+function keepAlive() {
+  dbh.query("select 1", function (err, result) {
+    console.log("setInterval");
+    if (err) return console.log(err);
+  });
+}
+
+setInterval(keepAlive, 4000);
 
 const options = {
   // checkExpirationInterval: 1000 * 60 * 15,
@@ -195,15 +211,40 @@ const sessionStore = new MySQLStore(options, pool);
  *
  */
 
+// app.use(
+//   session({
+//     key: "ninja1",
+//     secret: "secret",
+//     store: sessionStore,
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+
 app.use(
   session({
     key: "ninja1",
     secret: "secret",
     store: sessionStore,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
   })
 );
+
+// const session = require("express-session");
+// const csrf = require("csurf");
+
+// app.use(
+//   session({
+//     secret: "your_secret_key",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 60000 }, // Время жизни куки сессии в миллисекундах (например, 60 секунд)
+//   })
+// );
+
+// app.use(csrf());
 
 // app.use()
 
@@ -227,12 +268,12 @@ app.use("/school/project", isAuth, projectsRoutes);
 app.use("/school/list", isAuth, schoolList);
 app.use("/school/card", isAuth, schoolCardRoutes);
 app.use("/school/support", isAuth, support);
-
 app.use("/school_admin/global_add", isAuth, addRoutes);
 app.use("/school_admin/global_list", isAuth, globalListRoutes);
 app.use("/school_admin/global_profile", isAuth, globalProfileRoutes);
-
 app.use("/school_admin/library_list", isAuth, libraryListRoutes);
+
+// роуты для админки
 app.use("/admin/add_new_cabinet", isAdmin, addNewCabinetFormGeneration);
 app.use("/admin/add_new_cabinet/handler", isAdmin, addNewCabinetFormHandler);
 app.use("/admin/list_cabinet", isAdmin, listCabinetRoutes);
@@ -243,6 +284,15 @@ app.use("/admin/projects/", isAdmin, adminProjectsRoutes);
 app.use("/admin/teacher/", isAdmin, teacherEditAndDelete);
 app.use("/admin/library/", isAdmin, adddeletemembersRoutes);
 app.use("/admin/cards/", isAdmin, cardsRoutes);
+app.use("/admin/methodist/", isAdmin, adminMethodistRoutes);
+
+//роуты для методиста
+
+app.use("/methodist/cabinet", isMethodist, allMethodistRoutes);
+app.use("/methodist/school", isMethodist, allMethodistRoutes);
+
+////////////////////////////////////////////////////////////////////////
+
 app.use(function (req, res, next) {
   res.status(404).render("404_error_template", {
     layout: "404",

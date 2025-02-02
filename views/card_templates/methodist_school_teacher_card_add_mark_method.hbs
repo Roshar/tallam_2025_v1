@@ -1,0 +1,1078 @@
+<!-- jQuery library -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    .prompt {
+        display: none;
+    }
+</style>
+
+
+<section>
+    {{#if error}}
+    <div class="alert alert-danger alert_notification" role="alert">
+        {{error}}
+    </div>
+    {{/if}}
+
+    {{#if notice}}
+    <div class="alert alert-primary alert_notification" role="alert">
+        {{notice}}
+    </div>
+    {{/if}}
+</section>
+
+
+<header>
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class=" col-md-6 col-sm-12">
+                <div class="logo">
+                    <a href="/methodist/cabinet" class="logo__tallam">Tallam</a>
+                    <div>
+                        <h2 class="header__institution" id="header__institution">{{school_name}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-6 col-sm-12 ">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <div class="container-fluid pt-2">
+                        <button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon "></span>
+                        </button>
+                        <div class="collapse navbar-collapse   flex-row-reverse  " id="navbarNavDropdown">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/school/support">Помощь</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/logout">Выйти</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="row indent-y-2-m">
+
+            <div class="col-md-6">
+                <nav class="second_nav">
+                    <ul class="second_nav__items">
+                        <li class="second_nav__item"><a
+                                href="/methodist/cabinet/school/{{school_id}}/card/methodist/{{id_methodist}}/teacher/{{teacher_id}}/check"
+                                id="myBtn" class="second_nav__link"> Вернуться к выбору карты</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-6">
+                <nav class="second_nav">
+                    <ul class="second_nav__items">
+                        <li class="second_nav__item"><a href="/" id="myBtn" class="second_nav__link"> Вернуться на
+                                главную</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-12">
+
+                {{!--             модалка   --}}
+                <div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+                    aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalToggleLabel">Критерии оценивания действий
+                                    учителя</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="modal-body">
+
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn-main-color" data-bs-target="#exampleModalToggle2"
+                                    data-bs-toggle="modal" data-bs-dismiss="modal">Понятно</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{!--                 модалка  --}}
+
+            </div>
+        </div>
+        <form method="POST">
+            <div class="row">
+                <div class="col-12">
+
+                    <section class="teacher-card">
+                        <div class="teacher-card__title">
+                            <h2 class="text-align-center">Оценить урок</h2>
+                        </div>
+
+
+                        {{#each teacher}}
+                        <h3 class="text-align-center"> ФИО: {{surname}} {{firstname}} {{patronymic}} </h3>
+                        {{/each}}
+                        <div class="row">
+                            <div class="col-md-6 mx-auto">
+                                <div class="input-group mb-3">
+                                    <select name="discipline_id" class="card-results-discipline form-select"
+                                        id="discipline" required>
+                                        {{#if disciplineListByTeacherId}}
+                                        {{#each disciplineListByTeacherId}}
+                                        <option value="{{discipline_id}}">{{title_discipline}}</option>
+                                        {{/each}}
+                                        {{else}}
+                                        <option value="">Нет предмета</option>
+                                        {{/if}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mx-auto">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="input-group mb-3">
+                                            <select name="class_id" class="form-select" id="class_id" required>
+                                                <option value=""> Выберите класс</option>
+                                                <option value="1"> 1 класс </option>
+                                                <option value="2"> 2 класс </option>
+                                                <option value="3"> 3 класс </option>
+                                                <option value="4"> 4 класс </option>
+                                                <option value="5"> 5 класс </option>
+                                                <option value="6"> 6 класс </option>
+                                                <option value="7"> 7 класс </option>
+                                                <option value="8"> 8 класс </option>
+                                                <option value="9"> 9 класс </option>
+                                                <option value="10"> 10 класс </option>
+                                                <option value="11"> 11 класс </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 ">
+                                        <div class="input-group mb-3">
+                                            <select name="liter_class" class="form-select" id="liter_class">
+                                                <option value=""> Выбрать литер (при наличии) </option>
+                                                <option value="А"> А </option>
+                                                <option value="Б"> Б </option>
+                                                <option value="В"> В </option>
+                                                <option value="Г"> Г </option>
+                                                <option value="Д"> Д </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mx-auto">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="input-group mb-3">
+                                            <select name="source_id" class="form-select" id="sourse">
+                                                {{!-- <option value="2" id="inside" data-inside="inside"> Внутришкольная
+                                                    оценка</option> --}}
+                                                <option value="1" id="outside" data-outside="outside"> Внешняя оценка
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 ">
+                                        <div class="input-group mb-3">
+                                            <input type="date" class="form-control" placeholder="{{current_date}}"
+                                                name="date_create" min="2019-01-01" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-6 col-md-6 mx-auto">
+                                <div class=" mb-3">
+                                    <label for="thema" class="form-label"> Тема урока: </label>
+                                    <input type="text" name="thema" class="form-control" type="text"
+                                        placeholder="Напишите тему урока" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mx-auto">
+                                <div class="hidden-block" id="hidden-block">
+                                    <div class=" mb-3">
+                                        <h4>Данные оценивающего:</h4>
+                                        <input class=" w3-input w3-animate-input" style="width:30%" type="text"
+                                            name="source_fio" placeholder="ФИО">
+                                        <input class="w3-input w3-animate-input" style="width:30%" type="text"
+                                            name="position_name" placeholder="Должность">
+                                        <input class="w3-input w3-animate-input" style="width:30%" type="text"
+                                            name="source_workplace" placeholder="Место работы">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+
+            <style>
+                .popover {
+                    max-width: 100%;
+                    /* Max Width of the popover (depending on the container!) */
+                }
+            </style>
+
+            <div class="row">
+                <div class="col-12">
+                    <a data-bs-toggle="modal" style="display:none" id="btn-o" href="#exampleModalToggle"
+                        role="button">Модальное окно</a>
+
+                    <section>
+                        <div class="table-responsive">
+                            <table class="table form-area">
+                                <thead>
+                                    {{!--                             <tr> --}}
+                                    {{!--                                 <th class="form-area__main" style="font-size:.9em">Критерии оценки урока (2 балла – признак проявляется в полной мере, но не регулярно, 1 балл – признак проявляется не в полной мере, 0 баллов – признак не проявляется в деятельности учителя на уроке ) <br>Бинарная оценка (0 – 1 балл) фиксирует наличие или отсутствие действия учителя</th> --}}
+                                    {{!--                                 <th class="form-area__main" >Оценка в баллах</th> --}}
+                                    {{!--                             </tr> --}}
+                                    <tr>
+                                        <th class="form-area__main">Виды компетенций </th>
+                                        <th class="form-area__main">Оценка в баллах</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    <tr>
+                                        <td scope="row" class="h-td"><strong> 1. МЕТОДИЧЕСКИЕ КОМПЕТЕНЦИИ</strong> </td>
+                                        <td class="h-td"> <strong>макс. оценка 33 баллов</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td scope="row" class="h-td-2" colspan="2"><strong>Целеполагание на уроке (0 – 6
+                                                баллов)</strong> </td>
+                                    </tr>
+
+
+
+                                    <tr>
+                                        <td scope="row" class="td_list">1.1. Учитель обучает учащихся ставить учебную
+                                            цель, используя проблемные вопросы, смысловые догадки, метод ассоциаций и
+                                            другое
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не объявляет учащимся цель
+                                                        урока («Вы сегодня узнаете…», «Вы сегодня научитесь…»)
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель объявляет учащимся цель урока
+                                                        («Вы сегодня узнаете…», «Вы сегодня научитесь…»). Учитель не
+                                                        предлагает учащимся самим попробовать поставить учебную цель,
+                                                        используя для этого проблемные вопросы, задания на смысловые
+                                                        догадки и ассоциации по теме урока</p>
+                                                    <p><strong>2 балла: </strong>Учащиеся пробуют сами поставить учебную
+                                                        цель – чему они научатся на уроке. Учитель помогает им,
+                                                        предлагая ответить на проблемный вопрос, высказать свои
+                                                        смысловые догадки или ассоциации по теме урока</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_1" id="k_2_1" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.2. Цель урока сформулирована так, что ее
+                                            достижение можно проверить
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Формулировка цели слишком общая.
+                                                        Такая цель не помогает учащимся понять, какие результаты они
+                                                        достигнут к концу урока (то есть какие знания и умения усвоят).
+                                                        Учитель не объясняет учащимся, как проверить достижение этих
+                                                        результатов
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Цель урока сформулирована конкретно.
+                                                        Учитель объясняет учащимся, какие результаты они достигнут к
+                                                        концу урока (то есть какие знания и умения усвоят), и как
+                                                        проверить достижение этих результатов</p>
+                                                    <p><strong>2 балла: </strong>Учащиеся пробуют сами объяснить, какие
+                                                        результаты они достигнут к концу урока (то есть какие знания и
+                                                        умения усвоят), и как проверить достижение этих результатов</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_2" id="k_2_2" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.3. Составлены критерии оценки деятельности и
+                                            результатов учащихся на уроке
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не организует работу с
+                                                        критериями оценки деятельности и результатов учащихся на уроке.
+                                                        Учитель не дает пояснений, что такое критерии, и как с их
+                                                        помощью оценивать деятельность и результаты учащихся на уроке
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель заранее сообщает учащимся
+                                                        критерии оценки деятельности и результатов учащихся на уроке</p>
+                                                    <p><strong>2 балла: </strong>Учащиеся пробуют сами, вместе с
+                                                        учителем, составить критерии оценки своей деятельности и
+                                                        результатов на уроке. Во время урока учащиеся учатся по этим
+                                                        критериям оценивать свои личные достижения (самооценка) и
+                                                        достижения одноклассников (взаимооценка).</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_3" id="k_2_3" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="h-td-2" colspan="2"><strong>Организация деятельности
+                                                учащихся на уроке (0 – 12 баллов)</strong> </td>
+
+                                    </tr>
+
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.4. Учитель формирует положительную учебную
+                                            мотивацию, интерес учащихся к теме урока
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong>На уроке нет вопросов и заданий,
+                                                        направленных на формирование положительной учебной мотивации,
+                                                        устойчивого интереса учащихся к теме урока
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>На уроке учитель использует вопросы и
+                                                        задания, направленные на формирование положительной учебной
+                                                        мотивации, устойчивого интереса учащихся к теме урока,
+                                                        эмоциональное вовлечение учащихся в содержание урока</p>
+
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_4" id="k_2_4" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.5. Учитель применяет
+                                            приемы активизации познавательной деятельности учащихся и диалоговые
+                                            технологии
+
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> На уроке преобладают объяснения
+                                                        учителя и инструкции для учащихся. Учитель не применяет приемы
+                                                        активизации познавательной деятельности учащихся и диалоговые
+                                                        технологии.
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель применяет различные приемы
+                                                        активизации познавательной деятельности учащихся и диалоговые
+                                                        технологии. Учитель организует учебный диалог (дискуссию),
+                                                        поощряет учащихся давать развернутые ответы и обосновывать их
+                                                    </p>
+
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_5" id="k_2_5" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.6. Учитель организует самостоятельную работу
+                                            учащихся с учебником
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не организует самостоятельную
+                                                        работу учащихся с учебником: не предлагает учащимся самим найти
+                                                        нужную тему и задания в учебнике; не объясняет учащимся, какой
+                                                        материал дан в учебнике по теме урока (тексты, рисунки, таблицы,
+                                                        правила, задачи, вопросы и другое), зачем и как с ним работать.
+                                                        Учитель сам читает учащимся задание в учебнике и объясняет, чему
+                                                        они научатся, выполняя его
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель организует самостоятельную
+                                                        работу учащихся с учебником. Учитель предлагает учащимся самим
+                                                        найти нужную тему и задания в учебнике. Учитель объясняет
+                                                        учащимся, какой материал дан в учебнике по теме урока (тексты,
+                                                        рисунки, таблицы, правила, задачи, вопросы и другое), зачем и
+                                                        как с ним работать. Учащиеся пробуют сами объяснить, чему
+                                                        научатся, выполняя задание из учебника</p>
+                                                    <p><strong>2 балла: </strong> Учитель организует самостоятельную
+                                                        работу учащихся с учебником. Учитель предлагает учащимся самим
+                                                        найти нужную тему и задания в учебнике. Учитель обсуждает с
+                                                        учащимися, какой материал дан в учебнике по теме урока (тексты,
+                                                        рисунки, таблицы, правила, задачи, вопросы и другое), зачем и
+                                                        как с ним работать. Учащиеся пробуют сами объяснить, чему
+                                                        научатся, выполняя задание из учебника. Учитель предлагает
+                                                        учащимся разные задания из учебника (или разное их количество) с
+                                                        учетом индивидуальных особенностей и возможностей учащихся</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_6" id="k_2_6" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.7. Учитель формирует универсальные учебные
+                                            действия учащихся на предметном материале урока
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong>Учитель не объясняет учащимся, какие
+                                                        универсальные учебные действия у них формируются при выполнении
+                                                        практических заданий по теме урока
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель объясняет учащимся, какие
+                                                        универсальные учебные действия у них формируются при выполнении
+                                                        практических заданий по теме урока (не используя термин «УУД»)
+                                                    </p>
+                                                    <p><strong>2 балла: </strong>Учащиеся с помощью учителя сами
+                                                        пробовали назвать универсальные учебные действия, которым
+                                                        научились, выполняя практические задания по теме урока (не
+                                                        используя термин «УУД»)</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_7" id="k_2_7" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.8. Учитель использует разнообразные способы и
+                                            средства обратной связи с учащимися
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель ведет урок, не используя
+                                                        средства обратной связи с учащимися: учитель не спрашивает
+                                                        учащихся, в чем у них возникают затруднения; учащиеся не задают
+                                                        учителю вопросы
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель использует в основном
+                                                        фронтальные способы обратной связи с классом: «Что не ясно?
+                                                        Какие затруднения?»</p>
+                                                    <p><strong>2 балл: </strong>Учитель использует разнообразные способы
+                                                        и средства обратной связи с учащимися (устные и письменные;
+                                                        индивидуальные, парные, групповые и фронтальные)</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_8" id="k_2_8" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.9. Учитель организует разнообразные формы
+                                            учебного сотрудничества учащихся
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не организует разнообразные
+                                                        формы учебного сотрудничества учащихся. На уроке преобладает
+                                                        фронтальная работа учителя с классом
+
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель организует учебное
+                                                        сотрудничество учащихся в парах и группах постоянного состава
+                                                    </p>
+                                                    <p><strong>2 балл: </strong>Учитель использует разнообразные формы
+                                                        учебного сотрудничества учащихся: работа в парах, в группах
+                                                        постоянного и сменного состава, в командах, коллективное
+                                                        взаимодействие</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_9" id="k_2_9" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.10.* На уроке организована проектная
+                                            деятельность учащихся
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong>Учитель организует проектную
+                                                        деятельность учащихся, пропуская некоторые ее этапы:
+                                                        формирование команды; определение проблемы, которую поможет
+                                                        решить проект; обсуждение замысла проекта; выполнение проекта в
+                                                        соответствии с замыслом; презентация проекта классу. Учитель не
+                                                        представляет учащимся критерии, по которым можно оценить
+                                                        результаты их проектной деятельности
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель организует основные этапы
+                                                        проектной деятельности учащихся: формирование команды;
+                                                        определение проблемы, которую поможет решить проект; обсуждение
+                                                        замысла проекта; выполнение проекта в соответствии с замыслом;
+                                                        презентация итогового продукта классу. Учитель представляет
+                                                        учащимся критерии, по которым можно оценить результаты их
+                                                        проектной деятельности</p>
+                                                    <p><strong> <span style="font-size:1.5em"> - </span> : </strong>Если
+                                                        материал по теме урока не позволяет учителю организовать такую
+                                                        работу на уроке, вместо баллов нужно поставить прочерк</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_10" id="k_2_10" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="-1">0</option>
+                                                <option value="0">-</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.11.* На уроке организована
+                                            учебно-исследовательская деятельность учащихся
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель организует
+                                                        учебно-исследовательскую деятельность учащихся, пропуская
+                                                        некоторые ее этапы: постановка проблемного вопроса, который
+                                                        требует исследования; выдвижение гипотезы (предположения); сбор
+                                                        и анализ информации для проверки гипотезы; оформление
+                                                        результатов исследования; презентация результатов исследования
+                                                        классу Учитель не представляет учащимся критерии, по которым
+                                                        можно оценить результаты их учебно-исследовательской
+                                                        деятельности
+                                                    </p>
+                                                    <p><strong>1 балла: </strong>Учитель организует основные этапы
+                                                        учебно-исследовательской деятельности учащихся: постановка
+                                                        проблемного вопроса, который требует исследования; выдвижение
+                                                        гипотезы (предположения); сбор и анализ информации для проверки
+                                                        гипотезы; оформление результатов исследования; презентация
+                                                        результатов исследования классу. Для оценки результатов
+                                                        учебно-исследовательской деятельности учащихся использовались
+                                                        критерии</p>
+                                                    <p><strong><span style="font-size:1.5em"> - </span> : </strong>Если
+                                                        материал по теме урока не позволяет учителю организовать такую
+                                                        работу на уроке, вместо баллов нужно поставить прочерк</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_11" id="k_2_11" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="-1">0</option>
+                                                <option value="0">-</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="h-td-2" colspan="2"><strong>Оценка и рефлексия на уроке
+                                                (0 – 6 баллов)</strong> </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.12. Учитель применяет на уроке приемы
+                                            формирующего оценивания (задания на самооценку, рефлексивные вопросы,
+                                            которые помогают учащимся осознать свои затруднения и достижения на уроке)
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong>Учитель не применяет во время урока
+                                                        приемы формирующего оценивания: не задает учащимся рефлексивные
+                                                        вопросы, которые помогают им осознать свои затруднения и
+                                                        достижения на уроке («Что у тебя уже получается? Что тебе
+                                                        удается делать без ошибок? Что тебе пока трудно делать? Почему?
+                                                        Чем я могу тебе помочь?» и другие)
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель применяет во время урока приемы
+                                                        формирующего оценивания: задает учащимся рефлексивные вопросы,
+                                                        которые помогают им осознать свои затруднения и достижения на
+                                                        уроке («Что у тебя уже получается? Что тебе удается делать без
+                                                        ошибок? Что тебе пока трудно делать? Почему? Чем я могу тебе
+                                                        помочь?» и другие)</p>
+
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_12" id="k_2_12" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.13. Учитель оценивает выполнение заданий на
+                                            уроке учащимися на основе критериев оценки
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель оценивает выполнение заданий
+                                                        на уроке учащимися, не используя критерии оценки
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель оценивает выполнение заданий на
+                                                        уроке учащимися на основе критериев оценки. Но учитель не
+                                                        предлагает учащимся самим попробовать сделать самооценку или
+                                                        взаимооценку выполнения заданий</p>
+                                                    <p><strong>2 балла: </strong>Учитель сначала предлагает самим
+                                                        учащимся оценить результаты выполнения заданий на основе
+                                                        критериев оценки (самооценка, взаимооценка). После этого учитель
+                                                        сам оценивает выполнение заданий на уроке учащимися на основе
+                                                        этих же критериев оценки</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_13" id="k_2_13" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.14. Учитель комментирует выставленные отметки
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель выставляет отметки без
+                                                        комментариев
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель комментирует выставленные
+                                                        отметки на основе критериев оценки</p>
+
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_14" id="k_2_14" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.15. Учитель организует на уроке рефлексию
+                                            учащихся с учетом их возрастных особенностей
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> На уроке учитель не организует
+                                                        рефлексию учащихся, не задает им вопросы: «Что для вас самое
+                                                        трудное на уроке? Что для вас самое интересное? Какие знания вам
+                                                        уже известны, а какие – новые для вас? Какие задания были самыми
+                                                        полезными для вас?»
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>На уроке учитель организует рефлексию
+                                                        учащихся, задает им вопросы: «Что для вас самое трудное на
+                                                        уроке? Что для вас самое интересное? Какие знания вам уже
+                                                        известны, а какие – новые для вас? Какие задания были самыми
+                                                        полезными для вас?»</p>
+                                                    <p><strong>2 балла: </strong>На уроке учитель организует
+                                                        содержательную и эмоциональную рефлексию учащихся, задает им
+                                                        вопросы: «Что для вас самое трудное на уроке? Что для вас самое
+                                                        интересное? Какие знания вам уже известны, а какие – новые для
+                                                        вас? Какое настроение у вас сейчас?»</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_15" id="k_2_15" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="h-td-2" colspan="2"><strong>Информационное и техническое
+                                                обеспечение урока (0 – 6 баллов)</strong> </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.16. Учитель использует наглядность
+                                            (знаково-символические средства, модели и другое)
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не использует на уроке
+                                                        наглядность (знаково-символические средства, модели и другое)
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель использует на уроке наглядность
+                                                        (знаково-символические средства, модели и другое)</p>
+
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_16" id="k_2_16" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.17. Учитель организует работу учащихся с
+                                            разнообразным учебным материалом (тексты, таблица, схема, график, видео,
+                                            аудио)
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> На уроке преобладает работа с
+                                                        текстами. Учитель не организует работу учащихся по
+                                                        преобразованию текстов в графический материал (в таблицу или
+                                                        схему) и наоборот.
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель организует работу учащихся с
+                                                        разнообразным учебным материалом (тексты, таблица, схема,
+                                                        график), дает задания на преобразование текстов в графический
+                                                        материал (в таблицу или схему) и наоборот.</p>
+                                                    <p><strong>2 балла: </strong>Учитель организует работу учащихся с
+                                                        разнообразным учебным материалом (тексты, таблица, схема,
+                                                        график), дает задания на преобразование текстов в графический
+                                                        материал (в таблицу или схему) и наоборот. Учитель использует в
+                                                        обучении на уроке аудио- и видеоматериал.</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_17" id="k_2_17" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.18. Учитель использует на уроке электронные
+                                            учебные материалы и ресурсы Интернета
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не использует электронные
+                                                        учебные материалы и ресурсы Интернета
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель использует электронные учебные
+                                                        материалы и ресурсы Интернета, которые дополняют материал
+                                                        учебника по теме урока</p>
+
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_18" id="k_2_18" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.19.* Учитель использует ИКТ-технологии
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не использует на уроке
+                                                        ИКТ-технологии
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель использует на уроке
+                                                        ИКТ-технологии</p>
+                                                    <p><strong> <span style="font-size:1.5em"> - </span> : </strong>Если
+                                                        учитель не планировал использовать на уроке ИКТ-технологии,
+                                                        вместо баллов нужно поставить прочерк</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_19" id="k_2_19" required>
+                                                <option value="">Выбрать</option>
+                                                <option value="1">1</option>
+                                                <option value="-1">0</option>
+                                                <option value="0">-</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.20. * Учитель использует разнообразные
+                                            справочные материалы
+                                            (словари, энциклопедии,
+                                            справочники)
+
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель использует разнообразные
+                                                        справочные материалы. Учитель сам читает учащимся нужную
+                                                        информацию из них
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель организует работу учащихся с
+                                                        разнообразными справочными материалами. Учащиеся сами находят в
+                                                        них нужную информацию</p>
+                                                    <p><strong> <span style="font-size:1.5em"> - </span> : </strong>Если
+                                                        учитель не планировал использовать на уроке разнообразные
+                                                        справочные материалы (словари, энциклопедии, справочники),
+                                                        вместо баллов нужно поставить прочерк</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_20" id="k_2_20" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="-1">0</option>
+                                                <option value="0">-</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="h-td-2" colspan="2"><strong>Обеспечение условий охраны
+                                                здоровья учащихся (0 – 3 балла)</strong> </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.21. Учитель чередует различные виды
+                                            деятельности учащихся, соблюдая требования СанПиН и СП
+
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не соблюдает требования
+                                                        СанПиН и СП к количеству видов учебной деятельности учащихся на
+                                                        уроке, к длительности использования компьютера учащимися, к
+                                                        длительности использование интерактивной доски и другие
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель соблюдает требования СанПиН и СП
+                                                        к количеству видов учебной деятельности учащихся на уроке, к
+                                                        длительности использования ком-пьютера учащимися, к длительности
+                                                        использование интерактивной доски и другие</p>
+
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_21" id="k_2_21" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" class="td_list"> 1.22. Учитель включает в урок динамические
+                                            паузы (физкультминутки), проводит комплекс упражнений для профилактики
+                                            сколиоза, утомления глаз учащихся
+
+                                            <i class='fas fa-question-circle' style='font-size:18px;color:#2e609a'>
+
+                                                <div class="prompt">
+                                                    <p><strong> 0 баллов:</strong> Учитель не включает в урок
+                                                        динамические паузы (физкультминутки), не проводит комплекс
+                                                        упражнений для профилактики сколиоза, утомления глаз учащихся
+                                                    </p>
+                                                    <p><strong>1 балл: </strong>Учитель включает в урок динамические
+                                                        паузы (физкультминутки), проводит комплекс упражнений для
+                                                        профилактики сколиоза, утомления глаз учащихся</p>
+                                                    <p><strong>2 балла: </strong>Учитель включает в урок динамические
+                                                        паузы (физкультминутки), проводит комплекс упражнений для
+                                                        профилактики сколиоза, утомления глаз учащихся. С помощью
+                                                        игровых приемов учитель связывает динамические паузы с
+                                                        содержанием урока.</p>
+                                                </div>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="k_2_22" id="k_2_22" required>
+                                                <option value="">Выбрать</option>
+
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                                <option value="0">0</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <input type="hidden" name="id_teacher" value="{{teacher_id}}">
+                        <input type="hidden" name="school_id" value="{{school_id}}">
+                        <input type="hidden" name="project_id" value="{{project_id}}">
+                        <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
+                        <div class="d-grid gap-2">
+                            <input type="submit" class="btn btn-block btn-main-block btn-main-color"
+                                style="font-size: 1.3em;" value="оценить">
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                    </section>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>
+
+
+
+<script>
+
+
+    $('[data-toggle="popover"]').popover();
+
+    let op = $('#hidden-block');
+    $("#sourse").change(function () {
+        if ($(this).find(':selected').attr('id') == "outside") {
+            op.removeClass('hidden-block')
+
+        } else {
+            op.addClass('hidden-block')
+        }
+    });
+
+    let collection = document.querySelectorAll('.fa-question-circle');
+
+
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].addEventListener('click', (e) => {
+            let infoBlock = e.currentTarget.getElementsByTagName('div')[0].innerHTML
+            provideInModal(infoBlock)
+        })
+    }
+
+    const provideInModal = function (content) {
+
+        var theDiv = document.getElementById("modal-body");
+
+
+        theDiv.getElementsByTagName('p')
+
+        if (theDiv.children.length) {
+            theDiv.innerHTML = ''
+        }
+
+        theDiv.insertAdjacentHTML("afterBegin", content);
+        document.getElementById("btn-o").click()
+
+    }
+
+
+
+
+</script>

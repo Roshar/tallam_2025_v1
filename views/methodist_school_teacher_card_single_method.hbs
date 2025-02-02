@@ -1,8 +1,3 @@
-<style>
-    /* .tr-max-size { */
-    /* width:100%; */
-    /* } */
-</style>
 <section>
     {{#if error}}
     <div class="alert alert-danger alert_notification" role="alert">
@@ -19,25 +14,14 @@
 <header>
     <div class="container">
         <div class="row d-flex align-items-center">
-            <div class=" col-md-6 col-sm-12 print-none">
+            <div class=" col-md-6 col-sm-12">
                 <div class="logo">
-                    <a href="/" class="logo__tallam">Tallam</a>
+                    <a href="/methodist/cabinet/" class="logo__tallam">Tallam</a>
                     <div>
                         <h2 class="header__institution" id="header__institution">{{school_name}}</h2>
                     </div>
                 </div>
             </div>
-
-            {{!--             print block --}}
-            <div class=" print-show col-md-12">
-                <div class="logo text-align-center">
-                    <a href="/" class="logo__tallam">Tallam</a>
-                    <div>
-                        <h2 class="header__institution" id="header__institution">{{school_name}}</h2>
-                    </div>
-                </div>
-            </div>
-            {{!-- print block end --}}
             <div class=" col-md-6 col-sm-12 ">
                 <nav class="navbar navbar-expand-md navbar-light">
                     <div class="container-fluid pt-2">
@@ -66,13 +50,14 @@
 
 <main>
     <div class="container">
-
         <div class="row indent-y-2-m">
             <div class="col-md-6">
                 <nav class="second_nav">
                     <ul class="second_nav__items">
-                        <li class="second_nav__item"><a href="/school/project/{{project_id}}"
-                                class="second_nav__link">Вернуться на страницу проекта</a></li>
+
+                        <li class="second_nav__item"><a
+                                href="/methodist/cabinet/school/{{school_id}}/area/{{area_id}}/methodist/{{id_methodist}}/analysis/{{teacher_id}}"
+                                class="second_nav__link">Вернуться к оценкам учителя</a></li>
                     </ul>
                 </nav>
             </div>
@@ -80,8 +65,9 @@
                 <nav class="second_nav">
                     <ul class="second_nav__items">
                         <li class="second_nav__item"><a
-                                href="/school/card/check/project/{{project_id}}/teacher/{{teacher_id}}"
-                                class="second_nav__link">Оценить</a></li>
+                                href="/methodist/cabinet/school/{{school_id}}/card/methodist/{{id_methodist}}/teacher/{{teacher_id}}/check"
+                                class="second_nav__link">
+                                Оценить</a></li>
                     </ul>
                 </nav>
             </div>
@@ -123,7 +109,7 @@
 
                                     <tr>
                                         <td class="tg-0lax tg-center">ФИО, должность субъекта оценивания урока</td>
-                                        <td class="tg-0lax">{{{../sourceData}}}</td>
+                                        <td class="tg-0lax">{{../sourceData}}</td>
                                     </tr>
                                     <tr>
                                         <td class="tg-0lax">Предмет</td>
@@ -165,50 +151,7 @@
 
                         <table class="table-responsive">
                             <div class="tbl-result_card">
-                                <tr>
-                                    <td colspan="2" class="own-table-align-center" style="font-weight:bold"> 1.
-                                        ПРЕДМЕТНЫЕ КОМПЕТЕНЦИИ </td>
-                                </tr>
-                                <tr>
-                                    <td>1.1. Учитель проводит урок по теме, которая соответствует теме в его Рабочей
-                                        программе и Календарно-тематическом плане</td>
-                                    <td class="fix-width">{{k_1_1}}</td>
-                                </tr>
-                                <tr>
-                                    <td>1.2. Учитель направляет внимание учащихся на тему урока и на главные (новые)
-                                        слова в ней</td>
-                                    <td class="fix-width">{{k_1_2}}</td>
-                                </tr>
-                                <tr>
-                                    <td>1.3. Учитель организует самостоятельную работу учащихся с учебником </td>
-                                    <td class="fix-width">{{k_1_3}}</td>
-                                </tr>
-                                <tr>
-                                    <td>1.4. Учитель владеет материалом по теме урока</td>
-                                    <td class="fix-width">{{k_1_4}}</td>
-                                </tr>
-                                <tr>
-                                    <td>1.5. Учитель обучает учащихся работать с ошибками </td>
-                                    <td class="fix-width">{{k_1_5}}</td>
-                                </tr>
-                                <tr>
-                                    <td>1.6. Учитель обучает учащихся устанавливать связи между знаниями по теме урока и
-                                        знаниями из других тем (внутрипредметные связи) </td>
-                                    <td class="fix-width">{{k_1_6}}</td>
-                                </tr>
-                                <tr>
-                                    <td>1.7.* Учитель обучает учащихся устанавливать связи между знаниями по теме урока
-                                        и знаниями из других учебных предметов (межпредметные связи)</td>
-                                    <td class="fix-width">{{ ../specialVal.k_1_7}}</td>
-                                </tr>
-                                <tr class=" final-tr  {{../resultFirst.levelStyle}}">
-                                    <td class="tg-c3ow own-table-align-center">Результат:<br><span
-                                            style="font-weight:bold;font-style:italic;font-size:.8em">100-75% - выше
-                                            базового, 74-50% - базовый уровень, 49-0% - ниже базового </span></td>
-                                    <td class="tg-0pky own-table-align-center align-middle fix-width">
-                                        {{../firstInterest}} % <br><span style="font-size:.8em" class="print-none">
-                                            {{../resultFirst.level}}</span></td>
-                                </tr>
+
                                 <tr>
                                     <td colspan="2" class="own-table-align-center" style="font-weight:bold">2.
                                         МЕТОДИЧЕСКИЕ КОМПЕТЕНЦИИ
@@ -324,7 +267,7 @@
                                         (словари, энциклопедии,
                                         справочники)
                                     </td>
-                                    <td class="fix-width"> {{ ../specialVal.k_2_20}}</td>
+                                    <td class="fix-width">{{ ../specialVal.k_2_20}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="font-weight:bold">Обеспечение условий охраны здоровья
@@ -348,69 +291,8 @@
                                         {{../secondInterest}} % <br><span style="font-size:.8em" class="print-none">
                                             {{../resultSecond.level}}</span></td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2" class="own-table-align-center" style="font-weight:bold">3.
-                                        ПСИХОЛОГО-ПЕДАГОГИЧЕСКИЕ КОМПЕТЕНЦИИ</td>
-                                </tr>
-                                <tr>
-                                    <td>3.1. Учитель формирует ценность здоровья и безопасного образа жизни у
-                                        обучающихся</td>
-                                    <td class="fix-width">{{k_3_1}}</td>
-                                </tr>
-                                <tr>
-                                    <td>3.2. Учитель организует обучение учащихся на основе дифференциации и
-                                        индивидуализации с
-                                        учетом особенностей их когнитивного и эмоционального развития
-                                    </td>
-                                    <td class="fix-width">{{k_3_2}}</td>
-                                </tr>
-                                <tr>
-                                    <td>3.3. Учитель применяет приемы развития внимания и памяти, мышления и речи,
-                                        критического мышления и креативности учащихся</td>
-                                    <td class="fix-width">{{k_3_2}}</td>
-                                </tr>
 
-                                <tr class=" final-tr  {{../resultThird.levelStyle}}">
-                                    <td class="tg-c3ow own-table-align-center">Результат:<br><span
-                                            style="font-weight:bold;font-style:italic;font-size:.8em">100-75% - выше
-                                            базового, 74-50% - базовый уровень, 49-0% - ниже базового </span></td>
-                                    <td class="tg-0pky own-table-align-center align-middle fix-width">
-                                        {{../thirdInterest}} % <br><span style="font-size:.8em" class="print-none">
-                                            {{../resultThird.level}}</span></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="own-table-align-center" style="font-weight:bold"> 4.
-                                        КОММУНИКАТИВНЫЕ КОМПЕТЕНЦИИ</td>
-
-                                </tr>
-
-
-                                <tr>
-                                    <td>4.1. Учитель организует общение и взаимодействие с учащимися на уроке</td>
-                                    <td class="fix-width">{{k_4_1}}</td>
-                                </tr>
-                                <tr>
-                                    <td>4.2. Учитель организует совместную деятельность учащихся в командах (группах)
-                                    </td>
-                                    <td class="fix-width">{{k_4_2}}</td>
-                                </tr>
-                                <tr>
-                                    <td>4.3. * Учитель умеет работать с конфликтной ситуацией на уроке</td>
-                                    <td class="own-table-align-center">{{ ../specialVal.k_4_3}}</td>
-                                </tr>
-                                <tr class=" final-tr  {{../resultFourth.levelStyle}}">
-                                    <td class="tg-c3ow own-table-align-center">Результат:<br><span
-                                            style="font-weight:bold;font-style:italic;font-size:.8em">100-75% - выше
-                                            базового, 74-50% - базовый уровень, 49-0% - ниже базового </span></td>
-                                    <td class="tg-0pky own-table-align-center align-middle fix-width">
-                                        {{../fourthInterest}} % <br> <span style="font-size:.8em" class="print-none">
-                                            {{../resultFourth.level}}</span></td>
-                                </tr>
                             </div>
-                            {{!--                          <tr class=" final-tr  {{../levelStyle}}"> --}}
-                            {{!--                              <td class="tg-c3ow own-table-align-center" >КАЧЕСТВО УРОКА<br><span style="font-weight:bold;font-style:italic">100-76% - выше базового,  75-51% - базовый уровень,</span><br><span style="font-weight:bold;font-style:italic">50-0% - ниже базового </span><span style="font-weight:bold"> </span></td> --}}
-                            {{!--                              <td class="tg-0pky own-table-align-center align-middle">{{../interest}} <br> {{../level}}</td> --}}
-                            {{!--                          </tr> --}}
 
                             </tbody>
                         </table>
@@ -422,6 +304,7 @@
 
             <div class="row">
                 <div class="col-12">
+
                     <br>
                     <div class="lesson_info">
                         <p class="lesson_info__name"><span>ФИО оценивающего: </span></p>
@@ -478,6 +361,11 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
+
                 <div class="col-md-12 col-lg-6 ">
                     <div class="list_action">
                         <div class="list_action__child diagramma-btn">
@@ -486,24 +374,76 @@
                                 <input type="hidden" name="delete_teacher_id" value="{{teacher_id}}">
                                 <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="card-btn"> <span style="color:tomato"> Удалить текущую
-                                            оценку (анализ)</span></button>
+                                    {{!--                                         <button type="submit" class="card-btn"> <span style="color:tomato">  Удалить текущую оценку (анализ)</span></button> --}}
+
+                                    {{#if ../authorCard}}
+                                    <button type="button" class="card-btn" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        <span style="color:tomato">Удалить текущую оценку (анализ)</span>
+                                    </button>
+                                    {{else}}
+                                    <button type="button" class="card-btn" data-bs-toggle="modal">
+                                        <span style="color:rgb(216, 145, 133)" aria-disabled="true">Удалить текущую
+                                            оценку
+                                            (недоступно)</span>
+                                    </button>
+                                    {{/if}}
+
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header ">
+                                <h5 class="modal-title " style="text-align:center" id="exampleModalLabel">Вы уверены?
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="d-grid gap-2">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Отменить</button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-danger"> Да, удалить </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!--                                 MODAL  --}}
+                <br>
+                </form>
+                {{/each}}
             </div>
-            <br>
-            {{/each}}
         </div>
-    </div>
 </main>
 
 
 <div class="black"></div>
 
 <script>
+
     $('tr[data-href]').on("click", function () {
         document.location = $(this).data('href');
     });

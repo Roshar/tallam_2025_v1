@@ -16,7 +16,7 @@
         <div class="row d-flex align-items-center">
             <div class=" col-md-6 col-sm-12">
                 <div class="logo">
-                    <a href="/" class="logo__tallam">Tallam</a>
+                    <a href="/methodist/cabinet" class="logo__tallam">Tallam</a>
                     <div>
                         <h2 class="header__institution" id="header__institution">{{school_name}}</h2>
                     </div>
@@ -56,7 +56,8 @@
                 <nav class="second_nav">
                     <ul class="second_nav__items">
 
-                        <li class="second_nav__item"><a href="/school/project/{{project_id}}"
+                        <li class="second_nav__item"><a
+                                href="/methodist/cabinet/school/{{school_id}}/area/{{area_id}}/methodist/{{id_methodist}}/teachers"
                                 class="second_nav__link">Вернуться к списку</a></li>
                     </ul>
                 </nav>
@@ -67,7 +68,7 @@
                     <ul class="second_nav__items">
 
                         <li class="second_nav__item"><a
-                                href="/school/card/check/project/{{project_id}}/teacher/{{teacher_id}}"
+                                href="/methodist/cabinet/school/{{school_id}}/card/methodist/{{id_methodist}}/teacher/{{teacher_id}}/check"
                                 class="second_nav__link">Оценить</a></li>
                     </ul>
                 </nav>
@@ -95,10 +96,10 @@
                                     <div class="input-group mb-3">
                                         <select name="card-results-sourse" id="card-results-sourse" class="form-select">
                                             <option value=""> Тип оценки </option>
-                                            <option value="1" {{selected 1 currentSourceId}}> Отобразить результаты
-                                                внешней проверки</option>
-                                            <option value="2" {{selected 2 currentSourceId}}> Отобразить результаты
-                                                внтуренней проверки</option>
+                                            <option value="1" {{selected 1 currentSourceId}}> Отобразить мои оценки
+                                            </option>
+                                            <option value="2" {{selected 2 currentSourceId}}> Отобразить оценки школы
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -151,10 +152,14 @@
 
                             </thead>
                             <tbody>
+
+
                                 {{#if card}}
                                 {{#each card}}
+
+                                {{!-- /{{getCardLink card_type}} --}}
                                 <tr class="hov-link"
-                                    data-href="/school/card/single/{{id_card}}/project/{{../project_id}}/{{../teacher_id}}/{{getCardLink card_type}}">
+                                    data-href="/methodist/cabinet/school/{{../school_id}}/showcard/{{id_card}}/methodist/{{../id_methodist}}/teacher/{{../teacher_id}}/{{getCardLink card_type}}">
                                     <td class="tg-0pky"> {{increment @index}}</td>
                                     <td class="tg-0pky">{{day}} {{getMonthFromArray month}} {{year}}</td>
                                     {{!--                                         <td class="tg-0pky">{{level}}</td> --}}

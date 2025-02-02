@@ -26,6 +26,11 @@ router.get("/logout", async (req, res) => {
   });
 });
 
-router.post("/login", authCntrl.existsUserInDb);
+// версия 1.0
+// router.post("/login", authCntrl.existsUserInDb);
+
+// версия 2.0
+router.post("/loginSchool", authCntrl.existsUserInDb);
+router.post("/loginMethodist", authCntrl.existsUserInDb);
 
 module.exports = router;

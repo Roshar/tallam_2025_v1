@@ -33,9 +33,10 @@ exports.getProfileByTeacherId = async (req, res) => {
     );
 
     dbh.end();
+
     return result;
   } catch (e) {
-    console.log(e);
+    console.log(e.message);
   }
 };
 
@@ -317,7 +318,7 @@ exports.getAllTeachersFromThisSchool = async (req, res) => {
       "SELECT teachers.id_teacher, teachers.surname, teachers.firstname, teachers.patronymic, teachers.phone, teachers.email," +
         "position.title_position FROM  `teachers` " +
         "INNER JOIN `position` ON teachers.position = position.id_position " +
-        "WHERE teachers.school_id = ?",
+        "WHERE teachers.school_id = ? ORDER BY teachers.surname ASC",
       [school_id]
     );
 
@@ -390,6 +391,33 @@ exports.disciplineListByTeacherId = async function (req, res) {
 
     console.log("модель");
     console.log(res);
+
+    dbh.end();
+    return res;
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+/** END BLOCK ----------------------------------------  */
+
+/** GET  MAIN INFO BY METHODIST ID  */
+
+exports.mainInfoByMethodistId = async function (req, res) {
+  try {
+    const dbh = await mysql.createConnection(dbl());
+
+    const id_methodist = await req.id_methodist;
+    //    console.log(teacher_id)
+
+    // const [res, fields] = await dbh.execute("SELECT  * FROM `discipline_middleware` as dm INNER JOIN `area` ON schools.area_id = area.id_area WHERE id_school = ?",[teacher_id])
+    const [
+      res,
+      fields,
+    ] = await dbh.execute(
+      "SELECT id_user, firstname, surname, patronymic, position, position_id, department FROM methodists WHERE id_user = ?",
+      [id_methodist]
+    );
 
     dbh.end();
     return res;
@@ -835,3 +863,107 @@ exports.deleteTeacherProfileById = async (req, res) => {
 };
 
 /** END BLOCK ----------------------------------------  */
+
+/** Получить всех учителей по id школе */
+
+/** Получить всех учителей по ID школы и по ID тем предметам, которые доступны для  методиста */
+
+exports.getAllTeachersFromThisSchoolFromCurrentProjectAndByMethodistId = async (
+  req,
+  res
+) => {
+  try {
+    console.log(
+      "Получить всех учителей по ID школы и по ID тем предметам, которые доступны для  методиста"
+    );
+    const dbh = await mysql.createConnection(dbl());
+    const school_id = await req.school_id;
+    const discipline_list = await req.discipline_list;
+
+    console.log(discipline_list);
+    const project_id = await req.id_project;
+
+    let name_table_project = null;
+
+    const [projectе, fields1] = await dbh.execute(
+      "SELECT * FROM project_middleware_names"
+    );
+
+    const project_array = [];
+
+    for (let d = 0; d < projectе.length; d++) {
+      project_array.push(projectе[d].tbl_name);
+    }
+
+    for (let num = 1; num < project_array.length; num++) {
+      if (project_id == num + 1) {
+        name_table_project = project_array[num];
+      }
+    }
+
+    const disciplineIds = discipline_list.map((row) => row.discipline_id);
+
+    console.log("disciplineIds list in model ", disciplineIds);
+
+    // Генерация плейсхолдеров для IN
+    const placeholders = disciplineIds.map(() => "?").join(",");
+
+    console.log("placeholders", placeholders);
+    console.log("name_table_project", name_table_project);
+    console.log("discipline_middleware");
+
+    const query = `SELECT DISTINCT 
+      teachers.id_teacher, 
+      teachers.firstname, 
+      teachers.surname, 
+      teachers.patronymic, 
+      teachers.phone, 
+      teachers.email, 
+      teachers.school_id, 
+      position.title_position  
+    FROM ${name_table_project} AS mpt 
+    INNER JOIN 
+        teachers ON mpt.teacher_id = teachers.id_teacher  
+    INNER JOIN 
+        position ON teachers.position = position.id_position 
+        INNER JOIN
+        discipline_middleware ON discipline_middleware.teacher_id = teachers.id_teacher
+    WHERE
+        teachers.school_id = ? 
+        AND mpt.in_project_status = ? 
+        AND discipline_middleware.discipline_id IN (${placeholders})`;
+
+    console.log(query);
+
+    // Выполняем запрос
+    const [result, fields] = await dbh.execute(query, [
+      school_id,
+      2,
+      ...disciplineIds,
+    ]);
+
+    dbh.end();
+    return result;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// помоги написать запрос для mysql бд
+
+// есть три таблицы:
+
+// 1- таблица methodist_discipline_middleware в которой харнятся предметы для методиста (связь один ко многим то есть  methodist_id   -один, discipline_id - многие)
+
+//  со следующей структурой:
+//  methodist_id
+//  disciline_id
+
+// 2- таблица discipline_middleware - тут хранятся предметы для учителей (связь один ко многим то есть teacher_id -один, discipline_id - многие)
+// стурктура:
+// teacher_id
+// discipline_id
+
+// 3 - таблица  teachers  в которой хранятся все учителя
+
+// Теперь необходимо получить

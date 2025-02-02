@@ -21,7 +21,7 @@
         <div class="row d-flex align-items-center">
             <div class=" col-md-6 col-sm-12 print-none">
                 <div class="logo">
-                    <a href="/" class="logo__tallam">Tallam</a>
+                    <a href="/methodist/cabinet" class="logo__tallam">Tallam</a>
                     <div>
                         <h2 class="header__institution" id="header__institution">{{school_name}}</h2>
                     </div>
@@ -71,8 +71,9 @@
             <div class="col-md-6">
                 <nav class="second_nav">
                     <ul class="second_nav__items">
-                        <li class="second_nav__item"><a href="/school/project/{{project_id}}"
-                                class="second_nav__link">Вернуться на страницу проекта</a></li>
+                        <li class="second_nav__item"><a
+                                href="/methodist/cabinet/school/{{school_id}}/area/{{area_id}}/methodist/{{methodist_id}}/analysis/{{teacher_id}}"
+                                class="second_nav__link">Вернуться к оценкам учителя</a></li>
                     </ul>
                 </nav>
             </div>
@@ -80,7 +81,7 @@
                 <nav class="second_nav">
                     <ul class="second_nav__items">
                         <li class="second_nav__item"><a
-                                href="/school/card/check/project/{{project_id}}/teacher/{{teacher_id}}"
+                                href="/methodist/cabinet/school/{{school_id}}/card/methodist/{{methodist_id}}/teacher/{{teacher_id}}/check"
                                 class="second_nav__link">Оценить</a></li>
                     </ul>
                 </nav>
@@ -123,7 +124,7 @@
 
                                     <tr>
                                         <td class="tg-0lax tg-center">ФИО, должность субъекта оценивания урока</td>
-                                        <td class="tg-0lax">{{{../sourceData}}}</td>
+                                        <td class="tg-0lax">{{../sourceData}}</td>
                                     </tr>
                                     <tr>
                                         <td class="tg-0lax">Предмет</td>
@@ -481,19 +482,71 @@
                 <div class="col-md-12 col-lg-6 ">
                     <div class="list_action">
                         <div class="list_action__child diagramma-btn">
-                            <form method="POST" action="" class="secondary_form">
+
+                            <form method="POST" action="" class="secondary_form" id="deleteForm">
                                 <input type="hidden" name="delete_teacher_school" value="{{school_id}}">
                                 <input type="hidden" name="delete_teacher_id" value="{{teacher_id}}">
                                 <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="card-btn"> <span style="color:tomato"> Удалить текущую
-                                            оценку (анализ)</span></button>
+                                    {{!-- <button type="submit" class="card-btn"> <span style="color:tomato"> Удалить текущую
+                                            оценку (анализ)</span></button> --}}
+                                    {{#if ../authorCard}}
+                                    <button type="button" class="card-btn" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        <span style="color:tomato">Удалить текущую оценку (анализ)</span>
+                                    </button>
+                                    {{else}}
+                                    <button type="button" class="card-btn" data-bs-toggle="modal">
+                                        <span style="color:rgb(216, 145, 133)" aria-disabled="true">Удалить текущую
+                                            оценку
+                                            (недоступно)</span>
+                                    </button>
+                                    {{/if}}
                                 </div>
+
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header ">
+                            <h5 class="modal-title " style="text-align:center" id="exampleModalLabel">Вы уверены?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Отменить</button>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" form="deleteForm" class="btn btn-danger"> Да, удалить
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!--                                 MODAL  --}}
             <br>
             {{/each}}
         </div>

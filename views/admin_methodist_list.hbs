@@ -1,0 +1,383 @@
+{{!-- <nav class="second_nav">
+                <ul class="second_nav__items">
+                    <li class="second_nav__item"><a href="/admin/add_new_school" class="second_nav__link">Добавить в список ОО</a></li>
+                </ul>
+            </nav> --}}
+</div>
+</header>
+
+<style>
+    /* надо перенести в файл */
+
+    .modal-1 {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+
+    .modal-content-1 {
+        background-color: transparent;
+        margin: 15% auto;
+        padding: 20px;
+        width: 80%;
+    }
+
+    .modal-wrap {
+        height: 200px;
+        width: 200px;
+        float: right;
+        position: relative;
+    }
+
+    .clearfix::after {
+        content: '';
+        clear: both;
+        display: block;
+    }
+
+
+    .close-1 {
+        color: rgba(46, 96, 154, 1);
+        font-size: 48px;
+        font-weight: bold;
+        position: fixed;
+
+    }
+
+    .close-1:hover,
+    .close-1:focus {
+        color: rgb(130, 194, 247);
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .add_form {
+        background-color: white;
+    }
+
+    .section-school-title {
+        margin: 20px 0;
+        color: #484343;
+
+    }
+
+    .section-school-title h2,
+    .section-school-title h3 {
+        line-height: 150%;
+        text-align: center;
+    }
+
+
+    .section-school-title .main_title {
+        color: #6a3394;
+
+    }
+
+    .wrapper-body h2 {
+        text-align: center;
+    }
+
+    .wrapper-body button {
+        margin: 35px 0;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        color: white;
+        text-transform: uppercase;
+        background-color: #6a3394;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dad6d6;
+        text-align: left;
+        padding: 18px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<main>
+    {{#if methodists}}
+
+    <div class="section-school-title">
+
+        {{#if methodists.length}}
+        <h2 class="main_title ">Методисты</h2>
+        <h2> Общий список</h2>
+
+        {{else}}
+        <h2> Нет данных </h2>
+        {{/if}}
+
+        {{#if error}}
+        <p> {{ error}}</p>
+        {{/if}}
+        {{#if notice}}
+        <p> {{ notice}}</p>
+        {{/if}}
+    </div>
+
+
+
+
+    <!-- TABLE FOR STAFF -->
+    <div class="wrapper-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>ФИО (учителя)</th>
+                    <th>Должность</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {{#if methodists}}
+                {{#each methodists}}
+                <tr>
+                    <td>{{increment @index}}</td>
+                    <td>{{surname}} {{firstname}}</td>
+                    <td>{{position}}</td>
+                    <td>
+                        <a href="/admin/school_list/methodist/{{../id_teacher}}"
+                            class="rate_button button">Просмотреть</a>
+                    </td>
+                </tr>
+                {{/each}}
+                {{/if}}
+            </tbody>
+        </table>
+        </section>
+        <!-- END BLOCK-->
+
+        <button id="myBtn">Добавить нового методиста </button>
+    </div>
+
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal-1">
+
+        <!-- Modal content -->
+        <div class="modal-content-1">
+            <div class="modal-wrap ">
+                <span class="close-1 clearfix">&times;</span>
+            </div>
+            {{!-- //admin/school_list/add_teacher_in_school --}}
+
+            <form method="POST" novalidate class="add_form" name="add_teacher">
+
+                <p class="prompt"><span class="star">* поля, обязательные для заполнения </span></p>
+                <h2 class="add_form__heading">Личные данные</h2>
+                <label>ФИО <span class="star">*</span>
+                    <input type="text" autofocus placeholder="Фамилия *" name="surname" required>
+                    <label class="message" for="surname">Фамилия содержит только буквы русского алфавита</label>
+
+                    <input type="text" placeholder="Имя *" name="firstname" required>
+                    <label class="message" for="firstname">Имя содержит только буквы русского алфавита</label>
+
+                    <input type="text" placeholder="Отчество" name="patronymic">
+                    <label class="message" for="patronymic">Отчество содержит только буквы русского алфавита</label>
+
+                    <label>Дата рождения <span class="star">*</span>
+                        <input type="date" placeholder="01.01.2000" name="birthday" min="1940-01-01" max="2020-12-01"
+                            required>
+                        <label class="message" for="birthday">Формат даты рождения должен быть таким: 01.01.1990</label>
+
+
+                        <label>Должность<span class="star">*</span>
+                            <select name="position_id" required>
+                                <option value="" selected disabled>-</option>
+                                {{#if position_m}}
+                                {{#each position_m}}
+                                <option value="{{id_position}}"> {{title_position}}</option>
+                                {{/each}}
+                                {{else}}
+                                <option value=""> НЕТ ДАННЫХ </option>
+                                {{/if}}
+                            </select>
+                        </label>
+                        <label class="message" for="position_id">Выберите из списка </label>
+
+
+
+                        <input type="text" placeholder="Место работы" name="department">
+                        <label class="message" for="department">Место работы:
+                        </label>
+
+                        <label>Преподаваемые дисциплины <br>
+
+                            <select class="js-example-basic-multiple" name="disciplines[]" id="dis" multiple="multiple">
+                                {{#if disciplines}}
+                                {{#each disciplines}}
+                                <option data-discip="{{title_discipline}}" value="{{id_discipline}}">
+                                    {{title_discipline}}</option>
+                                {{/each}}
+                                {{else}}
+                                <option value=""> НЕТ ДАННЫХ </option>
+                                {{/if}}
+                            </select>
+                            <ul class="selected_disciplines">
+                            </ul>
+                        </label>
+                        <label class="message" for="disciplines">message</label>
+
+                        <label>Районы (в которых методист может работать) <span class="star">*</span>
+                            <select name="area_id" required>
+                                <option value="" selected disabled>-</option>
+                                {{#if areas}}
+                                {{#each areas}}
+                                <option value="{{id_area}}"> {{title_area}}</option>
+                                {{/each}}
+                                {{else}}
+                                <option value=""> НЕТ ДАННЫХ </option>
+                                {{/if}}
+                            </select>
+                        </label>
+                        <label class="message" for="gender">Выбрать район в котором будет методист работать </label>
+
+                        <h2 class="add_form__heading">Контактные данные</h2>
+
+                        <input type="text" placeholder="Телефон" name="phone">
+                        <label class="message" for="phone">Введите номер телефона в формате <br>+7 (000) 000 00
+                            00</label>
+
+
+
+
+
+                        <h2 class="add_form__heading">Данные аккаунта</h2>
+
+                        <input type="email" placeholder="Логин/Email" name="login">
+                        <label class="message" for="login">Адрес почты должен быть верного формата:
+                            example@mail.ru</label>
+
+                        <input type="password" placeholder="Пароль" name="password">
+                        <label class="message" for="password"> Введите пароль</label>
+
+                        {{!-- {{#each school}}
+                        <input type="hidden" name="id_school" value="{{id_school}}">
+                        {{/each}} --}}
+                        <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
+                        <input type="hidden" name="add_methodist" value="1">
+                        <button type="submit" class="add_form__button button">Добавить</button>
+            </form>
+        </div>
+
+
+
+    </div>
+    {{else}}
+    <h2>Аккаунт на данную образовательную организацию не зарегистрирован!</h2>
+    {{/if}}
+</main>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.js-example-basic-multiple').select2();
+    });
+
+    let modal = document.getElementById("myModal");
+
+    let btn = document.getElementById("myBtn");
+
+    let span = document.getElementsByClassName("close-1")[0];
+
+    let wrap_area = document.querySelector(".modal-wrap")
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    wrap_area.onclick = () => {
+        modal.style.display = "none"
+    }
+
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    $(document).keyup(function (e) {
+        if (e.key === "Escape") {
+            modal.style.display = "none";
+        }
+    });
+
+
+    let years = document.querySelectorAll("select[name='year'] > option");
+    function setYears() {
+        let year = new Date().getFullYear();
+
+        for (let i = 1; i < 6; i++) {
+            years[i].value = year - i + 1;
+            years[i].innerHTML = year - i + 1;
+        }
+    }
+
+
+    setYears();
+
+    let form = document.querySelector('.add_form');
+    form.addEventListener('submit', event => {
+        validateSelections()
+        if (!isValid || validSelections < 3) {
+            let activeElement = document.activeElement;
+            activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            event.preventDefault();
+            return false;
+        }
+    })
+
+    let addQButton = document.querySelector('.add_qualification__button');
+
+    addQButton.addEventListener('click', () => {
+        let qSection = document.querySelector('.qualification_section');
+        let qBlock = document.querySelector('.qualification_section__block').cloneNode(true);
+        qBlock.classList.add('qualification_section__block--new')
+        qSection.appendChild(qBlock);
+
+        let cross = qBlock.firstElementChild;
+        cross.addEventListener('click', event => {
+            event.target.parentElement.remove();
+        });
+    });
+
+
+    let dateInput = document.querySelector("input[type='date']");
+
+    let isMouseDown = false; // в примере будет работать только для 1ой кнопки
+    dateInput.addEventListener('click', () => {
+        isMouseDown = true
+        console.log('hi');
+        if (!isMouseDown) {
+            dateInput.blur();
+        }
+    })
+</script>

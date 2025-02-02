@@ -183,7 +183,7 @@ exports.getSchoolTeachers = async (req, res) => {
 
       return res.render("school_profile", {
         layout: "mainprofile",
-        title: "Профиль учителя",
+        title: "Список учителей",
         school_id,
         school,
         email,

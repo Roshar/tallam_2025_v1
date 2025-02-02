@@ -1,75 +1,163 @@
 <div class="header ">
     <div class="container ">
-       <div class="row">
-           <div class="col-12 col-sm-12 main-header ">
-               <h1 class="main-header__heading">Tallam</h1>
-               <div class="main-header__blue-line"></div>
-               <p class="main-header__info">Информационно-аналитическая платформа </p>
-{{!--                <p class="main-header__info">ИНФОРМАЦИОННО-АНАЛИТИЧЕСКАЯ ПЛАТФОРМА </p> --}}
-           </div>
-       </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 main-header ">
+                <h1 class="main-header__heading">Tallam</h1>
+                <div class="main-header__blue-line"></div>
+                <p class="main-header__info">Информационно-аналитическая платформа </p>
+                {{!--                <p class="main-header__info">ИНФОРМАЦИОННО-АНАЛИТИЧЕСКАЯ ПЛАТФОРМА </p> --}}
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    ul.nav li.nav-item {
+        width: 50%;
+
+    }
+
+    ul.nav li.nav-item>button.nav-link {
+        color: #2e609a;
+        text-transform: uppercase;
+        width: 100%;
+    }
+
+    ul.nav li.nav-item>button.active {
+        background-color: #2e609a !important;
+        color: #FFF;
+    }
+</style>
 
 <main class="main-auth">
     <div class="container">
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-wrapper">
-                        <div class="white-container">
-                            {{#if error}}
-                                <p> {{ error}}</p>
-                            {{/if}}
-                            {{#if notice}}
-                                <p> {{ notice}}</p>
-                            {{/if}}
+        <div class="row">
+            <div class="col-12">
+                <div class="form-wrapper">
+                    <div class="white-container">
+                        {{#if error}}
+                        <p> {{ error}}</p>
+                        {{/if}}
+                        {{#if notice}}
+                        <p> {{ notice}}</p>
+                        {{/if}}
 
-                            <form action="/auth/login" method="POST">
-                                <div class="mb-3">
-                                    <input id="email" type="text" class="form-control form-control-lg" placeholder="ЛОГИН" name="email">
-                                </div>
-                                <div class="mb-3">
-                                    <input id="password" type="password" class="form-control form-control-lg" placeholder="ПАРОЛЬ" name="password">
-                                </div>
-                                <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
-                                <div class="row gy-3">
-                                    <div class="col-md-6">
-                                        <div class="d-grid gap-2">
-                                            <input type="submit"  class="btn white-container__btn" value="Войти">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active " id="home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#school" type="button" role="tab" aria-controls="school"
+                                    aria-selected="true">Школа</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                    data-bs-target="#methodist" type="button" role="tab" aria-controls="methodist"
+                                    aria-selected="false">Методист</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="school" role="tabpanel"
+                                aria-labelledby="home-tab">
+                                <form action="/auth/loginSchool" method="POST">
+                                    <div class="mb-3">
+                                        <input id="email" type="text" class="form-control form-control-lg"
+                                            placeholder="ЛОГИН" name="email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input id="password" type="password" class="form-control form-control-lg"
+                                            placeholder="ПАРОЛЬ" name="password">
+                                    </div>
+                                    <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
+                                    <input type="hidden" name="role" value="school">
+                                    <div class="row gy-3">
+                                        <div class="col-md-12">
+                                            <div class="d-grid gap-2">
+                                                <input type="submit" class="btn white-container__btn" value="Войти">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
 
-                                        <button type="button"class="btn forget-password__btn" data-bs-toggle="modal"    id="btn-o" href="#exampleModalToggle" role="button">Забыли пароль?</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="methodist" role="tabpanel" aria-labelledby="profile-tab">
+                                <form action="/auth/loginMethodist" method="POST">
+                                    <div class="mb-3">
+                                        <input id="email" type="text" class="form-control form-control-lg"
+                                            placeholder="ЛОГИН" name="email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input id="password" type="password" class="form-control form-control-lg"
+                                            placeholder="ПАРОЛЬ" name="password">
+                                    </div>
+                                    <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
+                                    <input type="hidden" name="role" value="methodist">
+                                    <div class="row gy-3">
+                                        <div class="col-md-12">
+                                            <div class="d-grid gap-2">
+                                                <input type="submit" class="btn white-container__btn" value="Войти">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...
+                            </div>
+                        </div>
+
+                        {{!-- <form action="/auth/login" method="POST">
+                            <div class="mb-3">
+                                <input id="email" type="text" class="form-control form-control-lg" placeholder="ЛОГИН"
+                                    name="email">
+                            </div>
+                            <div class="mb-3">
+                                <input id="password" type="password" class="form-control form-control-lg"
+                                    placeholder="ПАРОЛЬ" name="password">
+                            </div>
+                            <input type="hidden" name="_csrf" value="{{@root.csrf}}" id="token">
+                            <div class="row gy-3">
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2">
+                                        <input type="submit" class="btn white-container__btn" value="Войти">
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
+                                <div class="col-md-6">
 
+                                    <button type="button" class="btn forget-password__btn" data-bs-toggle="modal"
+                                        id="btn-o" href="#exampleModalToggle" role="button">Забыли пароль?</button>
+                                </div>
+                            </div>
+                        </form> --}}
+                    </div>
                 </div>
+
             </div>
         </div>
+    </div>
 </main>
 
 {{!--             модалка   --}}
-        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+    tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalToggleLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body" id="modal-body">
-                    <h4 style="text-align:center">  Уважаемый пользователь! Если вы забыли пароль к своей учетной записи или столкнулись с другими проблемами, пожалуйста, свяжитесь с нами в <a class="brand_link_color"href="https://t.me/nakata_katsu">ТЕЛЕГРАММ.</a> </h4>
-              </div>
-              <div class="d-grid gap-2">
-               <button class="btn-main-color"  data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Понятно</button>
-              </div>
             </div>
-          </div>
+            <div class="modal-body" id="modal-body">
+                <h4 style="text-align:center"> Уважаемый пользователь! Если вы забыли пароль к своей учетной записи или
+                    столкнулись с другими проблемами, пожалуйста, свяжитесь с нами в <a class="brand_link_color"
+                        href="https://t.me/nakata_katsu">ТЕЛЕГРАММ.</a> </h4>
+            </div>
+            <div class="d-grid gap-2">
+                <button class="btn-main-color" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+                    data-bs-dismiss="modal">Понятно</button>
+            </div>
         </div>
+    </div>
+</div>
 
 {{!--                 модалка  --}}
 
@@ -77,15 +165,15 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                    <div class="support">
-                       <div class = "row">
-                           <div class ="col-md-6">
-                                <div class="support__text">
-                                    <p>Техническая поддержка:</p>
-                                    <span>Эл. почта: webrush@mail.ru</span><br/>
-                                    <span>Телеграмм чат: <a href="https://t.me/nakata_katsu" class="auth-link"> Написать</a></span>
-                                    <p> ©2020-2023, Tallam - Информационно-аналитическая платформа</p>
-                                </div>
+                <div class="support">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="support__text">
+                                <p>Техническая поддержка:</p>
+                                <span>Эл. почта: webrush@mail.ru</span><br />
+                                <span>Телеграмм чат: <a href="https://t.me/nakata_katsu" class="auth-link">
+                                        Написать</a></span>
+                                <p> ©2020-2024, Tallam - Информационно-аналитическая платформа</p>
                             </div>
                         </div>
                     </div>
@@ -94,5 +182,4 @@
         </div>
     </div>
 </div>
-
-
+</div>

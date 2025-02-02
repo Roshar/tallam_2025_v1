@@ -1,0 +1,148 @@
+<header>
+    <div class="container">
+
+        <div class="row d-flex align-items-center">
+            <div class=" col-md-6 col-sm-12">
+                <div class="logo">
+                    <a href="/methodist/cabinet/" class="logo__tallam">Tallam</a>
+                    <div>
+                        <h2 class="header__institution" id="header__institution">{{school_name}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-6 col-sm-12 ">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <div class="container-fluid pt-2">
+                        <button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon "></span>
+                        </button>
+                        <div class="collapse navbar-collapse   flex-row-reverse  " id="navbarNavDropdown">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/methodist/cabinet/">Главная</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/school/support">Помощь</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/logout">Выйти</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<style>
+    /*.js-example-basic-multiple {*/
+    /*    height: 65px !important;*/
+    /*    line-height: 31px !important;*/
+    /*}*/
+</style>
+
+<section>
+    {{#if error}}
+    <div class="alert alert-danger alert_notification" role="alert">
+        {{error}}
+    </div>
+    {{/if}}
+
+    {{#if notice}}
+    <div class="alert alert-primary alert_notification" role="alert">
+        {{notice}}
+    </div>
+    {{/if}}
+</section>
+<main>
+
+    <section>
+        <div class="container">
+
+            <div class="row indent-y-1">
+                <div class="col-12 indent-y-2">
+                    <h2 class="main_title text-align-center ">{{this.school_name}}</h2>
+                    <h2 class="text-align-center"> Общий список педагогических работников ОО1 </h2>
+                </div>
+                {{#if school.length}}
+                {{#each school}}
+                <div class="col-md-12 col-lg-6">
+                    <div class="section-school-title__wrapper">
+                        <div class="section-school-title__part-left">
+                            <h4>Город/Район: {{this.title_area}}</h4>
+                            {{/each}}
+                            <h4> Электронный адрес: {{email}} </h4>
+                        </div>
+                    </div>
+                </div>
+                {{!-- <div class="col-md-12 col-lg-6 ">
+                <div class=" text-align-right">
+                    <a href="/school/list/create_base_list/{{school_id}}"><i class="fa fa-file-excel-o" style="font-size:2.5em;color:#39b76c"></i> <span></span></a>
+                </div>
+            </div> --}}
+                {{else}}
+                <h2> Нет данных </h2>
+                {{/if}}
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- TABLE FOR STAFF -->
+                    <div class="wrapper-body table_section table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>ФИО (учителя)</th>
+                                    <th>Должность</th>
+                                    <th>Общая информация</th>
+                                    <th>Анализ уроков</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {{#if teachers}}
+                                {{#each teachers}}
+                                <tr>
+                                    <td>{{increment @index}}</td>
+                                    <td>{{surname}} {{firstname}}</td>
+                                    <td>{{title_position}}</td>
+                                    <td>
+
+                                        <a href="/methodist/cabinet/school/{{school_id}}/area/{{../area_id}}/methodist/{{../id_methodist}}/teacherinfo/{{id_teacher}}"
+                                            class="rate_button button">Просмотреть</a>
+                                    </td>
+                                    <td>
+
+                                        <a href="/methodist/cabinet/school/{{school_id}}/area/{{../area_id}}/methodist/{{../id_methodist}}/analysis/{{id_teacher}}"
+                                            class="rate_button button">Перейти к оценкам</a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                                {{/if}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 indent-y-3">
+                    <div class="d-grid gap-2">
+                        <button id="myBtn" class="btn btn-block btn-main-block btn-main-color"> </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+
+    </script>

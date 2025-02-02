@@ -1,0 +1,150 @@
+<header>
+    <div class="container">
+
+        <div class="row d-flex align-items-center">
+            <div class=" col-md-6 col-sm-12">
+                <div class="logo">
+                    <a href="/methodist/cabinet/" class="logo__tallam">Tallam</a>
+                    <div>
+                        <h2 class="header__institution" id="header__institution">{{school_name}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-6 col-sm-12 ">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <div class="container-fluid pt-2">
+                        <button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon "></span>
+                        </button>
+                        <div class="collapse navbar-collapse   flex-row-reverse  " id="navbarNavDropdown">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/methodist/cabinet/">Главная</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/school/support">Помощь</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/logout">Выйти</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <div class="container-fluid">
+        <div class="own-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="teacher-card__title">
+                        <h2 class="text-align-center header_main_blue_color">Личный профиль методиста </h2>
+                        <h3 class="text-align-center">ФИО: <span
+                                style="text-decoration:underline; text-transform:uppercase">{{surname}} {{firstname}}
+                                {{patronymic}} </span></h3>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+            <!-- new tbl -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="wrapper-body table_section table-responsive">
+
+                        <div class="col-6 mx-auto">
+                            <table class="table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <td class="tg-0lax tg-center fix-size-contact">Район:</th>
+                                        <td class="tg-0lax">{{area_title}}
+                                            </th>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="tg-0lax">Должность:</td>
+                                        <td class="tg-0lax">{{position}}</td>
+                                    </tr>
+
+
+
+
+                                    <tr>
+                                        <td class="tg-0lax">Дисциплины, доступные для оценивания:</td>
+                                        <td class="tg-0lax">
+                                            {{#each discipline_list}}
+                                            {{this.title_discipline}} <br>
+                                            {{/each}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-0lax tg-center">Количество подключенных школ по району:</td>
+                                        <td class="tg-0lax">{{countSchoolsInProject}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="tg-0lax tg-center">Общее количество проведенных анализов:</td>
+                                        <td class="tg-0lax">{{countAnalisys}}</td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- end new tbl -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="wrapper-body table_section table-responsive">
+                        <table class="table-responsive">
+                            <thead>
+                                <tr>
+                                    <th class="tg-0lax tg-center fix-size-contact">№</th>
+                                    <th class="tg-0lax">Наименование образовательной организации</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#if  schools.length}}
+                                {{#each schools}}
+                                <tr>
+                                    <td class="tg-0lax tg-center fix-size-contact">{{increment @index}}</th>
+                                    <td class="tg-0lax">
+                                        <a
+                                            href="/methodist/cabinet/school/{{id_school}}/area/{{../area_id}}/methodist/{{../id_user}}/teachers">
+                                            {{school_name}}
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                {{/each}}
+                                {{else}}
+                                <td class="tg-0lax tg-center fix-size-contact"> нет данных</th>
+                                    {{/if}}
+                            </tbody>
+                        </table>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+
+    </div>
+    </div>
+</main>

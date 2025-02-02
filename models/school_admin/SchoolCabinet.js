@@ -1,13 +1,8 @@
-
-const mysql = require('mysql2/promise')
-const bcrypt = require('bcryptjs')
-const { v4: uuidv4 } = require('uuid');
+const mysql = require("mysql2/promise");
+const bcrypt = require("bcryptjs");
+const { v4: uuidv4 } = require("uuid");
 // const dbhoptions = require('../../helpers/dbh_options')
-const dbl = require('../../middleware/dbdata')
-
-
-
-
+const dbl = require("../../middleware/dbdata");
 
 /**
  * ######################  SELECT ROWS IN SQL #################################
@@ -17,42 +12,43 @@ const dbl = require('../../middleware/dbdata')
 /** GET DATA ABOUT SCHOOL BY ID  */
 
 exports.getSchoolData = async function (req, res) {
+  try {
+    const dbh = await mysql.createConnection(dbl());
+    const id_school = await req.school_id;
+    const [
+      result,
+      fields,
+    ] = await dbh.execute(
+      "SELECT * FROM `schools` INNER JOIN `area` ON schools.area_id = area.id_area WHERE id_school = ?",
+      [id_school]
+    );
 
-
-    try{
-
-        const dbh = await mysql.createConnection(dbl())
-        const id_school = await req.school_id
-        const [result, fields] = await dbh.execute("SELECT *  FROM `schools` INNER JOIN `area` ON schools.area_id = area.id_area WHERE id_school = ?", [id_school])
-  
-        dbh.end()
-        return result;
-     }catch(e) {
-        console.log(e.message)
-     }
-}
+    dbh.end();
+    return result;
+  } catch (e) {
+    console.log(e.message);
+  }
+};
 
 /** END BLOCK ----------------------------------------  */
-
-
 
 /** GET SUPPORT TYPE  */
 
 exports.getSupportType = async function () {
-    try{
-        const dbh = await mysql.createConnection(dbl())
-        const [result, fields] = await dbh.execute("SELECT *  FROM `support_type_middleware` ")
-  
-        dbh.end()
-        return result;
-     }catch(e) {
-        console.log(e.message)
-     }
-}
+  try {
+    const dbh = await mysql.createConnection(dbl());
+    const [result, fields] = await dbh.execute(
+      "SELECT *  FROM `support_type_middleware` "
+    );
+
+    dbh.end();
+    return result;
+  } catch (e) {
+    console.log(e.message);
+  }
+};
 
 /** END BLOCK ----------------------------------------  */
-
-
 
 /**
  * ######################  INSERT ROWS IN SQL #################################
@@ -61,31 +57,27 @@ exports.getSupportType = async function () {
 
 /** INSERT NEW MESSAGE IN DB */
 
-exports.insertMessageInDB  = async (req, res) => {
-    try {
+exports.insertMessageInDB = async (req, res) => {
+  try {
+    const dbh = await mysql.createConnection(dbl());
+    const type_id = await req.type_id;
+    const email = await req.email;
+    const message = await req.message;
+    const phone = await req.phone;
 
-       const dbh = await mysql.createConnection(dbl())
-       const type_id = await req.type_id;
-       const email = await req.email;
-       const message = await req.message;
-       const phone = await req.phone;
- 
-       const [result, fields] = await dbh.execute('INSERT INTO support_tbl_message (type_id, message, phone, email) VALUES (?,?,?,?)',[type_id, message, phone, email ])
-    
-       dbh.end()
-       return result.insertId;
-    }catch(e) {
-       console.log(e.message)
-    }
- }
- 
- /** END BLOCK ----------------------------------------  */
+    const [
+      result,
+      fields,
+    ] = await dbh.execute(
+      "INSERT INTO support_tbl_message (type_id, message, phone, email) VALUES (?,?,?,?)",
+      [type_id, message, phone, email]
+    );
 
+    dbh.end();
+    return result.insertId;
+  } catch (e) {
+    console.log(e.message);
+  }
+};
 
-
-
-
-
-
-
-
+/** END BLOCK ----------------------------------------  */
