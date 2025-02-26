@@ -477,6 +477,7 @@ exports.addMarkForTeacherMethodForMethodist = async (req, res) => {
       const project_id = await project[0].id_project;
 
       if (req.body.id_teacher && req.body._csrf) {
+        console.log("MMMMMMMMMMM", methodist_info);
         const id_methodist = methodist_info[0]["id_user"];
         const errors = validationResult(req);
 
@@ -496,7 +497,7 @@ exports.addMarkForTeacherMethodForMethodist = async (req, res) => {
           methodist_info[0]["firstname"] +
           " " +
           methodist_info[0]["patronymic"];
-        req.body.position_name = methodist_info[0]["position"];
+        req.body.position_name = methodist_info[0]["title_position"];
         req.body.source_workplace = methodist_info[0]["department"];
         req.body.source_id = 1;
 
@@ -1676,7 +1677,7 @@ exports.addMarkForTeacherAllforMethodist = async (req, res) => {
           methodist_info[0]["firstname"] +
           " " +
           methodist_info[0]["patronymic"];
-        req.body.position_name = methodist_info[0]["position"];
+        req.body.position_name = methodist_info[0]["title_position"];
         req.body.source_workplace = methodist_info[0]["department"];
         req.body.source_id = 1;
 

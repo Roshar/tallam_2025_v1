@@ -411,11 +411,9 @@ exports.mainInfoByMethodistId = async function (req, res) {
     //    console.log(teacher_id)
 
     // const [res, fields] = await dbh.execute("SELECT  * FROM `discipline_middleware` as dm INNER JOIN `area` ON schools.area_id = area.id_area WHERE id_school = ?",[teacher_id])
-    const [
-      res,
-      fields,
-    ] = await dbh.execute(
-      "SELECT id_user, firstname, surname, patronymic, position, position_id, department FROM methodists WHERE id_user = ?",
+    const [res, fields] = await dbh.execute(
+      `SELECT m.id_user, m.firstname, m.surname, m.patronymic, md.title_position, m.position_id, m.department FROM methodists as m
+       INNER JOIN methodist_position as md ON m.position_id = md.id_position  WHERE m.id_user = ?`,
       [id_methodist]
     );
 
