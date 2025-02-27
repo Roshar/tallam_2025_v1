@@ -219,6 +219,7 @@ exports.getConclusion = async function (req, res) {
 exports.createNewMarkInCardAll = async (req, res) => {
   try {
     const dbh = await mysql.createConnection(dbl());
+    console.log("Model allMark", req);
 
     let {
       discipline_id,

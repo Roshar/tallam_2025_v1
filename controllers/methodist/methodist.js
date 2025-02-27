@@ -14,6 +14,7 @@ const dateformat = require("../../utils/formatdate");
 const checkFromSQL = require("../../utils/prepareData");
 const checkFromSQL2 = require("../../utils/prepareData2");
 const setValueForInput = require("../../utils/specialValue");
+const getMoscowDateTime = require("../../utils/currentDataForSql");
 // const dboptions = require('../../helpers/dbh_options')
 const { v4: uuidv4 } = require("uuid");
 
@@ -500,6 +501,7 @@ exports.addMarkForTeacherMethodForMethodist = async (req, res) => {
         req.body.position_name = methodist_info[0]["title_position"];
         req.body.source_workplace = methodist_info[0]["department"];
         req.body.source_id = 1;
+        req.body.date_create = getMoscowDateTime();
 
         console.log("КОНТРОЛЛЕР данные с формы", req.body);
 
@@ -1680,6 +1682,7 @@ exports.addMarkForTeacherAllforMethodist = async (req, res) => {
         req.body.position_name = methodist_info[0]["title_position"];
         req.body.source_workplace = methodist_info[0]["department"];
         req.body.source_id = 1;
+        req.body.date_create = getMoscowDateTime();
 
         let lastId = await SchoolCard.createNewMarkInCardAll(req.body);
 
