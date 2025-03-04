@@ -1,6 +1,7 @@
 const SchoolCabinet = require("../../models/school_admin/SchoolCabinet");
 const SchoolProject = require("../../models/school_admin/SchoolProject");
 const SchoolTeacher = require("../../models/school_admin/SchoolTeacher");
+const Methodist = require("../../models/admin/Methodist_model");
 const SchoolCard = require("../../models/school_admin/SchoolCard");
 const Cabinet = require("../../models/admin/Cabinet");
 const { validationResult } = require("express-validator");
@@ -501,6 +502,7 @@ exports.addMarkForTeacherMethodForMethodist = async (req, res) => {
         req.body.position_name = methodist_info[0]["title_position"];
         req.body.source_workplace = methodist_info[0]["department"];
         req.body.source_id = 1;
+        req.body.methodist_area_id = methodist_info[0]["area_id"];
         req.body.date_create = getMoscowDateTime();
 
         console.log("КОНТРОЛЛЕР данные с формы", req.body);
@@ -1682,6 +1684,7 @@ exports.addMarkForTeacherAllforMethodist = async (req, res) => {
         req.body.position_name = methodist_info[0]["title_position"];
         req.body.source_workplace = methodist_info[0]["department"];
         req.body.source_id = 1;
+        req.body.methodist_area_id = methodist_info[0]["area_id"];
         req.body.date_create = getMoscowDateTime();
 
         let lastId = await SchoolCard.createNewMarkInCardAll(req.body);

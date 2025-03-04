@@ -144,7 +144,7 @@
                     <th>№</th>
                     <th>ФИО (учителя)</th>
                     <th>Должность</th>
-                    <th>Действие</th>
+                    <th>Профиль</th>
                 </tr>
             </thead>
             <tbody>
@@ -156,8 +156,7 @@
                     <td>{{surname}} {{firstname}}</td>
                     <td>{{position}}</td>
                     <td>
-                        <a href="/admin/school_list/methodist/{{../id_teacher}}"
-                            class="rate_button button">Просмотреть</a>
+                        <a href="/admin/methodist/profile/{{id_user}}" class="rate_button button">Открыть</a>
                     </td>
                 </tr>
                 {{/each}}

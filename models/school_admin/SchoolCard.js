@@ -269,9 +269,11 @@ exports.createNewMarkInCardAll = async (req, res) => {
       school_id,
       date_create,
       id_methodist = "",
+      methodist_area_id = "",
     } = await req;
 
     id_methodist = id_methodist || null;
+    methodist_area_id = methodist_area_id || null;
 
     console.log("модель для комплексной карты", req);
 
@@ -442,6 +444,23 @@ exports.createNewMarkInCardAll = async (req, res) => {
             source_id,
           ]
         );
+
+        let result3, fields3;
+        [
+          result,
+          fields,
+        ] = await dbh.execute(
+          `INSERT INTO methodist_static (methodist_id,teacher_id,card_type,discipline_id,card_id,area_id,created_date) VALUES (?,?,?,?,?,?,?)`,
+          [
+            id_methodist,
+            id_teacher,
+            1,
+            discipline_id,
+            result.insertId,
+            methodist_area_id,
+            date_create,
+          ]
+        );
       }
     }
 
@@ -498,9 +517,11 @@ exports.createNewMarkInCardMethod = async (req, res) => {
       school_id,
       date_create,
       id_methodist = "",
+      methodist_area_id = "",
     } = await req;
 
     id_methodist = id_methodist || null;
+    methodist_area_id = methodist_area_id || null;
 
     let result, fields;
     if (id_methodist) {
@@ -643,6 +664,23 @@ exports.createNewMarkInCardMethod = async (req, res) => {
             position_name,
             source_workplace,
             source_id,
+          ]
+        );
+
+        let result3, fields3;
+        [
+          result,
+          fields,
+        ] = await dbh.execute(
+          `INSERT INTO methodist_static (methodist_id,teacher_id,card_type,discipline_id,card_id,area_id,created_date) VALUES (?,?,?,?,?,?,?)`,
+          [
+            id_methodist,
+            id_teacher,
+            2,
+            discipline_id,
+            result.insertId,
+            methodist_area_id,
+            date_create,
           ]
         );
       }
