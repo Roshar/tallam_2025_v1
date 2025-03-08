@@ -146,6 +146,7 @@
                     <th>Количество охваченных работой ОО</th>
                     <th>Количество закрепленных педагогов</th>
                     <th>Количество проанализированных уроков</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -156,13 +157,11 @@
                     <td>{{increment @index}}</td>
                     <td>{{surname}} {{firstname}} {{patronymic}}</td>
                     <td>{{title_position}}</td>
-                    <td>{{disciplines}}</td>
-                    <td>{{record_count}}</td>
                     <td>{{title_discipline}}</td>
+                    <td>{{school_count}}</td>
+                    <td>{{teacher_count}}</td>
                     <td>{{record_count}}</td>
-                    <td>
-                        <a href="/admin/methodist/profile/{{id_user}}" class="rate_button button">Открыть</a>
-                    </td>
+
                 </tr>
                 {{/each}}
                 {{/if}}

@@ -505,13 +505,10 @@ exports.addMarkForTeacherMethodForMethodist = async (req, res) => {
         req.body.methodist_area_id = methodist_info[0]["area_id"];
         req.body.date_create = getMoscowDateTime();
 
-        console.log("КОНТРОЛЛЕР данные с формы", req.body);
-
         let lastId = await SchoolCard.createNewMarkInCardMethod(req.body);
 
         console.log(" Id добавленной оценки " + lastId);
 
-        // console.log('/school/card/project/' + project_id + '/teacher/' + teacher_id)
         if (lastId) {
           req.flash("notice", notice_base.success_insert_sql);
           return res

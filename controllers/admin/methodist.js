@@ -46,9 +46,6 @@ exports.getStatForm2 = async (req, res) => {
       const methodistData = await Methodist.getMethodistListByAreaId(
         req.body.area_id
       );
-      const countmarksbyMethodist = await Methodist.getMethodistMarkListCount(
-        req.body.area_id
-      );
 
       return res.render("methodists_in_admin/statistic/admin_methodist_form2", {
         layout: "admin",

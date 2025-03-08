@@ -63,43 +63,6 @@ exports.getDisciplineListByMethodistId = async function (req) {
  */
 
 /**
- * METHODIST Получить общую информацию о методисте
- */
-
-exports.getMethodistListByAreaId = async function (row) {
-  try {
-    const area_id = row;
-    console.log(area_id);
-
-    const dbh = await mysql.createConnection(dbl());
-
-    const [res, fields] = await dbh.execute(
-      `SELECT 
-    m.id_user,
-    m.firstname,
-    m.surname,
-    m.patronymic,
-    m.position_id,
-    mp.title_position
-FROM methodists AS m
-LEFT JOIN methodist_position AS mp ON m.position_id = mp.id_position WHERE m.area_id = ?`,
-      [area_id]
-    );
-
-    console.log(res);
-
-    dbh.end();
-    return res;
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
-/**
- * METHODIST END
- */
-
-/**
  * METHODIST Получить количество оценок по каждому методисту
  */
 
@@ -110,12 +73,52 @@ exports.getMethodistListByAreaId = async function (row) {
 
     const dbh = await mysql.createConnection(dbl());
 
+    //   const [res, fields] = await dbh.execute(
+    //     `SELECT
+    //     m.firstname,
+    //     m.surname,
+    //     m.patronymic,
+    //     mp.title_position,
+
+    //     COUNT(ms.id) AS record_count,
+    //     dt.title_discipline
+    // FROM methodist_static AS ms
+    // INNER JOIN methodists AS m ON ms.methodist_id = m.id_user
+    // INNER JOIN methodist_position AS mp ON m.position_id = mp.id_position
+    // INNER JOIN discipline_title AS dt ON ms.discipline_id = dt.id_discipline
+    // WHERE ms.area_id = ?
+    // GROUP BY m.firstname, m.surname, m.patronymic, mp.title_position, dt.title_discipline`,
+    //     [area_id]
+    //   );
+
     const [res, fields] = await dbh.execute(
       `SELECT 
-      methodist_id,
-      COUNT(*) AS record_count
-  FROM card_from_project_teacher_mark3
-  GROUP BY methodist_id WHERE methodist_id = ?`,
+    m.id_user,
+    m.firstname, 
+    m.surname, 
+    m.patronymic,
+    mp.title_position,
+    COUNT(ms.id) AS record_count,
+    dt.title_discipline,
+    
+    (SELECT COUNT(DISTINCT s.id_school)
+     FROM schools AS s
+     WHERE s.area_id = ms.area_id) AS school_count,
+
+    (SELECT COUNT(DISTINCT t.id_teacher)
+     FROM teachers AS t
+     INNER JOIN schools AS s ON t.school_id = s.id_school
+     INNER JOIN discipline_middleware AS dm ON dm.teacher_id = t.id_teacher
+     WHERE s.area_id = ms.area_id AND dm.discipline_id = ms.discipline_id
+    ) AS teacher_count
+
+FROM methodist_static AS ms
+INNER JOIN methodists AS m ON ms.methodist_id = m.id_user
+INNER JOIN methodist_position AS mp ON m.position_id = mp.id_position
+INNER JOIN discipline_title AS dt ON ms.discipline_id = dt.id_discipline
+WHERE ms.area_id = ?
+GROUP BY m.id_user, m.firstname, m.surname, m.patronymic, mp.title_position, dt.title_discipline, ms.area_id,ms.discipline_id ;
+`,
       [area_id]
     );
 
@@ -131,39 +134,3 @@ exports.getMethodistListByAreaId = async function (row) {
 /**
  * METHODIST END
  */
-
-/**  Добавляем информацию после добавления оценки для статистики
- * createNewMarkInCardAll
- * createNewMarkInCardMethod
- */
-
-exports.createStaticInfo = async (req, res) => {
-  try {
-    const dbh = await mysql.createConnection(dbl());
-
-    let result, fields;
-
-    [
-      result,
-      fields,
-    ] = await dbh.execute(
-      `INSERT INTO methodist_static VALUES (?,?,?,?,?,?,?)`,
-      [
-        methodist_id,
-        teacher_id,
-        card_type,
-        discipline_id,
-        card_id,
-        area_id,
-        created_date,
-      ]
-    );
-
-    dbh.end();
-    return result.insertId;
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
-/** END BLOCK ----------------------------------------  */

@@ -1,6 +1,14 @@
 {{> head_auth}}
+
 <body>
     {{{ body }}}
-{{!-- {{> footer }} --}}
+    {{!-- {{> footer }} --}}
 </body>
+
 </html>
+<script>
+
+    setInterval(async () => {
+        await fetch('/keep-session-alive');
+    }, 5 * 60 * 1000); 
+</script>

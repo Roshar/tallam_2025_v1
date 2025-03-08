@@ -14,6 +14,8 @@ const projectsRoutes = require("./routes/school_admin/school_project");
 const schoolList = require("./routes/school_admin/school_list");
 const schoolCardRoutes = require("./routes/school_admin/school_card");
 const support = require("./routes/school_admin/support");
+const csrf_token = require("./routes/test");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
@@ -44,6 +46,7 @@ const isAdmin = require("./middleware/admin");
 const isMethodist = require("./middleware/methodist");
 
 const dbhoptions = require("./helpers/dbh_options");
+const router = require("./routes/admin/methodistCollection");
 
 const app = express();
 
@@ -179,14 +182,11 @@ pool.getConnection((err, connection) => {
       console.error("Ошибка запроса:", error);
       return;
     }
-
     console.log(results);
   });
 });
 
 const dbh = mysql.createConnection(dbhoptions);
-
-// const pool = mysql.createPool(dbhoptions);
 
 function keepAlive() {
   dbh.query("select 1", function (err, result) {
@@ -198,28 +198,11 @@ function keepAlive() {
 setInterval(keepAlive, 4000);
 
 const options = {
-  // checkExpirationInterval: 1000 * 60 * 15,
-  // expiration: 86400000,
   clearExpired: true,
   createDatabaseTable: true,
 };
 
 const sessionStore = new MySQLStore(options, pool);
-
-/**
- * -------------
- *
- */
-
-// app.use(
-//   session({
-//     key: "ninja1",
-//     secret: "secret",
-//     store: sessionStore,
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
 
 app.use(
   session({
@@ -231,22 +214,9 @@ app.use(
     cookie: { maxAge: 24 * 60 * 60 * 1000 },
   })
 );
-
-// const session = require("express-session");
-// const csrf = require("csurf");
-
-// app.use(
-//   session({
-//     secret: "your_secret_key",
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { maxAge: 60000 }, // Время жизни куки сессии в миллисекундах (например, 60 секунд)
-//   })
-// );
-
-// app.use(csrf());
-
-// app.use()
+// Создаём middleware для CSRF-защиты
+const csrfProtection = csrf({ cookie: true });
+app.use(cookieParser());
 
 app.use(csrf());
 app.use(varMiddle);
@@ -258,10 +228,9 @@ app.use(
   })
 );
 
-//app.use(varmiddleware)
-
 //роутеры
 app.use("/", cabinetRoutes);
+app.use("/keep-session-alive", csrf_token);
 app.use("/auth", authRoutes);
 app.use("/school/cabinet", isAuth, cabinetRoutes);
 app.use("/school/project", isAuth, projectsRoutes);
@@ -292,7 +261,12 @@ app.use("/methodist/cabinet", isMethodist, allMethodistRoutes);
 app.use("/methodist/school", isMethodist, allMethodistRoutes);
 
 ////////////////////////////////////////////////////////////////////////
+// Маршрут для получения CSRF-токена
+// app.get("/csrf-token", csrfProtection, (req, res) => {
+//   res.json({ csrfToken: req.csrfToken() });
+// });
 
+// Обработчик ошибки 404
 app.use(function (req, res, next) {
   res.status(404).render("404_error_template", {
     layout: "404",

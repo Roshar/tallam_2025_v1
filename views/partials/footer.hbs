@@ -9,7 +9,12 @@
     </div>
 </footer>
 
-
+<script>
+    setInterval(async () => {
+        await fetch('/keep-session-alive');
+        console.log('kkk')
+    }, 5 * 60 * 1000);
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         let getYear = function () {
@@ -93,5 +98,7 @@
             body.style.overflow = 'hidden';
         };
     }
+
+
 
 </script>
