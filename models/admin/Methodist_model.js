@@ -73,59 +73,88 @@ exports.getMethodistListByAreaId = async function (row) {
 
     const dbh = await mysql.createConnection(dbl());
 
-    //   const [res, fields] = await dbh.execute(
-    //     `SELECT
-    //     m.firstname,
-    //     m.surname,
-    //     m.patronymic,
-    //     mp.title_position,
-
-    //     COUNT(ms.id) AS record_count,
-    //     dt.title_discipline
-    // FROM methodist_static AS ms
-    // INNER JOIN methodists AS m ON ms.methodist_id = m.id_user
-    // INNER JOIN methodist_position AS mp ON m.position_id = mp.id_position
-    // INNER JOIN discipline_title AS dt ON ms.discipline_id = dt.id_discipline
-    // WHERE ms.area_id = ?
-    // GROUP BY m.firstname, m.surname, m.patronymic, mp.title_position, dt.title_discipline`,
-    //     [area_id]
-    //   );
-
     const [res, fields] = await dbh.execute(
-      `SELECT 
-    m.id_user,
-    m.firstname, 
-    m.surname, 
-    m.patronymic,
-    mp.title_position,
-    COUNT(ms.id) AS record_count,
-    dt.title_discipline,
-    
-    (SELECT COUNT(DISTINCT s.id_school)
-     FROM schools AS s
-     WHERE s.area_id = ms.area_id) AS school_count,
+      `SELECT
+      m.id_user,
+      m.firstname,
+      m.surname,
+      m.patronymic,
+      mp.title_position,
+      COUNT(DISTINCT ms.id) AS record_count,
 
-    (SELECT COUNT(DISTINCT t.id_teacher)
-     FROM teachers AS t
-     INNER JOIN schools AS s ON t.school_id = s.id_school
-     INNER JOIN discipline_middleware AS dm ON dm.teacher_id = t.id_teacher
-     WHERE s.area_id = ms.area_id AND dm.discipline_id = ms.discipline_id
-    ) AS teacher_count
-
-FROM methodist_static AS ms
-INNER JOIN methodists AS m ON ms.methodist_id = m.id_user
-INNER JOIN methodist_position AS mp ON m.position_id = mp.id_position
-INNER JOIN discipline_title AS dt ON ms.discipline_id = dt.id_discipline
-WHERE ms.area_id = ?
-GROUP BY m.id_user, m.firstname, m.surname, m.patronymic, mp.title_position, dt.title_discipline, ms.area_id,ms.discipline_id ;
-`,
+      GROUP_CONCAT(DISTINCT dt.title_discipline SEPARATOR ', ') AS disciplines
+  FROM 
+      methodists AS m
+  LEFT JOIN 
+      methodist_static AS ms ON ms.methodist_id = m.id_user
+  LEFT JOIN 
+      methodist_discipline_middleware AS mdm ON mdm.methodist_id = m.id_user
+  LEFT JOIN 
+      discipline_title AS dt ON mdm.discipline_id = dt.id_discipline
+  INNER JOIN 
+      methodist_position AS mp ON m.position_id = mp.id_position
+  WHERE 
+      m.area_id = ?
+  GROUP BY 
+      m.id_user, m.firstname, m.surname, m.patronymic, mp.title_position`,
       [area_id]
     );
 
-    console.log(res);
+    const [res1, fields2] = await dbh.execute(
+      `SELECT m.id_user, COUNT(s.id_school) as schools_number FROM methodists as m 
+    INNER JOIN schools as s ON m.area_id = s.area_id WHERE m.area_id = ? GROUP BY m.id_user
+    `,
+      [area_id]
+    );
+
+    const [res3, fields3] = await dbh.execute(
+      `SELECT 
+      m.id_user AS user_id,
+      COUNT(DISTINCT dm.teacher_id) AS teacher_count
+  FROM 
+      methodists AS m
+  JOIN 
+      methodist_discipline_middleware AS mdm 
+      ON m.id_user = mdm.methodist_id
+  JOIN 
+      discipline_middleware AS dm 
+      ON mdm.discipline_id = dm.discipline_id
+  WHERE 
+      m.area_id = ?
+  GROUP BY 
+      m.id_user`,
+      [area_id]
+    );
+
+    function mergeUserData(table1, table2, table3) {
+      // Преобразуем table2 и table3 в объекты для быстрого доступа по id_user/user_id
+      const table2Map = Object.fromEntries(
+        table2.map((row) => [row.id_user, row])
+      );
+      const table3Map = Object.fromEntries(
+        table3.map((row) => [row.user_id, row])
+      );
+
+      // Соединяем данные из всех таблиц
+      return table1.map((row, index) => {
+        const userId = Object.keys(table2Map)[index]; // Получаем user_id из table2
+        const schoolsData = table2Map[userId] || {};
+        const teacherData = table3Map[userId] || {};
+
+        return {
+          ...row,
+          id_user: userId,
+          schools_number: schoolsData.schools_number || null,
+          teacher_count: teacherData.teacher_count || null,
+        };
+      });
+    }
+
+    const mergedData = mergeUserData(res, res1, res3);
+    console.log(mergedData);
 
     dbh.end();
-    return res;
+    return mergedData;
   } catch (e) {
     console.log(e.message);
   }
